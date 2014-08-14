@@ -3,9 +3,21 @@
 
   var overpassUrl = 'http://overpass-api.de/api/interpreter?data=[out:json][timeout:25];';
   var overpassOutputParams = ';out body;>;out skel qt;';
+  var map;
 
-
+  initializeMap();
   getLocation();
+
+
+  function initializeMap() {
+    map = L.map('map');
+    L.tileLayer('http://{s}.tiles.mapbox.com/v3/jancborchardt.j7aheln6/{z}/{x}/{y}.png', {
+      attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
+      maxZoom: 18
+    }).addTo(map);
+
+    map.locate({setView: true, maxZoom: 16});
+  }
 
   function getLocation() {
       if (navigator.geolocation) {
@@ -24,9 +36,18 @@
 
       var boundingBoxStr = '(' + boundingBox.latMin + ',' + boundingBox.lonMin + ',' + boundingBox.latMax + ',' + boundingBox.lonMax + ')'
 
-      $.getJSON(overpassUrl + '(node["leisure"="playground"](48.113047481277384,11.541824340820312,48.163566497754275,11.60207748413086);way["leisure"="playground"](48.113047481277384,11.541824340820312,48.163566497754275,11.60207748413086););out body;>;out skel qt;',
+      $.getJSON(overpassUrl + '(node["leisure"="playground"]' + boundingBoxStr + ';);out body;>;out skel qt;',
+
       function( data ) {
         console.log(data);
+
+        if(data.elements) {
+          for(var i=0; i< data.elements.length; i++) {
+            L.marker([data.elements[i].lat, data.elements[i].lon])
+              .addTo(map).bindPopup('Spielplatz');
+          }
+        }
+
       });
   }
 
