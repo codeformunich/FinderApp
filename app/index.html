@@ -30,7 +30,8 @@
     <link rel="stylesheet" href="styles/components/components.css">
     <link rel="stylesheet" href="styles/main.css">
     <link rel="stylesheet" href="styles/custom.css">
-    <link rel="stylesheet" href="styles/vendor/leaflet.css">
+    <link rel="stylesheet" href="styles/cardTemplate.css">
+    <link rel="stylesheet" href="http://static.lyrk.de/leaflet/0.7/leaflet.css" />
     <!-- endbuild -->
   </head>
   <body>
@@ -54,12 +55,14 @@
     </nav>
 
     <main>
-      <div id="map"></div>
+      <section class="card">
+        <div id="map"></div>
+      </section>
     </main>
 
     <!-- build:js scripts/main.min.js -->
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
-    <script src="scripts/vendor/leaflet.js"></script>
+    <script src="http://static.lyrk.de/leaflet/0.7/leaflet.js"></script>
     <script src="scripts/overpass.js"></script>
     <script src="scripts/main.js"></script>
     <!-- endbuild -->

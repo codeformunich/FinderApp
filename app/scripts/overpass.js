@@ -44,7 +44,12 @@
         if(data.elements) {
           for(var i=0; i< data.elements.length; i++) {
             L.marker([data.elements[i].lat, data.elements[i].lon])
-              .addTo(map).bindPopup('Spielplatz');
+              .addTo(map).bindPopup('Spielplatz #' + i);
+
+
+            $('main').append('<section class="card textcard">' +
+                              '<h1><strong>Ein Spielplatz</strong></h1><h2>Yes! Another card!</h2>' +
+                              '</section>')
           }
         }
 

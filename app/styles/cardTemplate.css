@@ -1,18 +1,18 @@
 .card {
 	position: relative;
+	z-index: 0;
+	margin: 0 0.2rem 1rem;
 	box-shadow: 0 1px 2px #aaa;
 	background: white;
-
-	margin:0 0.2rem 1rem;
-	border-radius:2px;
+	border-radius: 2px;
 }
 
 .textcard {
-  	padding: 1rem;
+  padding: 1rem;
 }
 
 #map {
-  height:12rem;
+  height: 12rem;
 
 }
 
@@ -22,16 +22,15 @@ main {
 }
 
 h1 {
-  font-size:1.5rem;
-  font-weight:200;
+  font-size: 1.5rem;
+  font-weight: 200;
 }
 
 h2 {
 	font-size: 1.2rem;
-	font-weight:200;
+	font-weight: 200;
 }
 
 strong {
-    font-weight:700;
-  }
-
+  font-weight: 700;
+}
