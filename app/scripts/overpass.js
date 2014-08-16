@@ -27,6 +27,11 @@ var overpass = (function () {
     navigator.geolocation.getCurrentPosition(performRequest);
   }
 
+  function sortResults(results) {
+    
+
+  }
+
   function performRequest(position) {
 
     var boundingBoxStr = createBoundingBoxStr(position);
