@@ -47,4 +47,18 @@
     }
   });
 
+
+  //Custom code
+  function processOverpassResults(resultElements) {
+    for(var i=0; i< resultElements.length; i++) {
+      leaf.addMarker(resultElements[i], 'Spielplatz #' + i);
+      $('main').append('<section class="card textcard">' +
+                        '<h1><strong>Ein Spielplatz</strong></h1><h2>Yes! Another card!</h2>' +
+                        '</section>')
+    }
+  };
+
+
+  leaf.initializeMap();
+  overpass.getResults('["leisure"="playground"]', processOverpassResults);
 })();
