@@ -3,7 +3,7 @@
  */
 var geoloc = (function () {
   'use strict';
-  
+
   // Semi-axes of WGS-84 geoidal reference
   var wgs84_a = 6378137.0,
       wgs84_b = 6356752.3;
@@ -29,10 +29,10 @@ var geoloc = (function () {
 
   function getDistanceBetween(coords1, coords2) {
     var earthRad = 6371,
-        lat1 = degToRad(coords1.latitude),
-        lon1 = degToRad(coords1.longitude),
-        lat2 = degToRad(coords2.latitude),
-        lon2 = degToRad(coords2.longitude);
+        lat1 = degToRad(coords1.lat),
+        lon1 = degToRad(coords1.lon),
+        lat2 = degToRad(coords2.lat),
+        lon2 = degToRad(coords2.lon);
 
     var dist = Math.acos(Math.sin(lat1) * Math.sin(lat2) + Math.cos(lat1) * Math.cos(lat2) * Math.cos(lon1 - lon2)) * earthRad;
 
@@ -41,8 +41,8 @@ var geoloc = (function () {
 
   function getBoundingBoxFor(coords, distance) {
 
-    var lat = degToRad(coords.latitude),
-        lon = degToRad(coords.longitude);
+    var lat = degToRad(coords.lat),
+        lon = degToRad(coords.lon);
 
     // Radius of Earth at given latitude
     var radius = wgs84EarthRadius(lat);

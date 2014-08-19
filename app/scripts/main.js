@@ -16,6 +16,8 @@
  *  limitations under the License
  *
  */
+currentPosition = null;
+
 (function () {
   'use strict';
 
@@ -26,6 +28,7 @@
   var appbarElement = querySelector('.app-bar');
   var menuBtn = querySelector('.menu');
   var main = querySelector('main');
+
 
   function closeMenu() {
     body.classList.remove('open');
@@ -49,16 +52,33 @@
 
 
   //Custom code
-  function processOverpassResults(resultElements) {
-    for(var i=0; i< resultElements.length; i++) {
-      leaf.addMarker(resultElements[i], 'Spielplatz #' + i);
-      $('main').append('<section class="card textcard">' +
-                        '<h1><strong>Ein Spielplatz</strong></h1><h2>Yes! Another card!</h2>' +
-                        '</section>')
-    }
-  };
+  function processOverpassResults(result) {
+    var results = new ResultCollection(result, {parse: true});
+    console.log(results);
+
+    results.each(createView)
+  }
+
+
+  function createView(result, index) {
+    leaf.addMarker(result.toCoords(), 'Spielplatz #' + (index+1));
+    $('main').append('<section class="card textcard">' +
+                      '<h1><strong>Ein Spielplatz</strong></h1><h2>Yes! Another card!</h2>' +
+                      '</section>')
+  }
 
 
   leaf.initializeMap();
-  overpass.getResults('["leisure"="playground"]', processOverpassResults);
+
+  //get current position before rendering anything
+  navigator.geolocation.getCurrentPosition(function(position) {
+
+    currentPosition = {
+      lat: position.coords.latitude,
+      lon: position.coords.longitude
+    }
+
+    overpass.performRequest('["leisure"="playground"]', processOverpassResults);
+  });
+
 })();

@@ -7,11 +7,10 @@ var overpass = (function () {
   var overpassUrl = 'http://overpass-api.de/api/interpreter?data=[out:json][timeout:25];';
   var overpassOutputParams = ';out body;>;out skel qt;';
   var callback;
-  var query;
 
   function createBoundingBoxStr(position) {
-      console.log(geoloc.getBoundingBoxFor(position.coords, 1000));
-      var boundingBox = geoloc.getBoundingBoxFor(position.coords, 1000);
+      console.log(geoloc.getBoundingBoxFor(position, 1000));
+      var boundingBox = geoloc.getBoundingBoxFor(position, 1000);
 
       return '(' + boundingBox.latMin + ',' + boundingBox.lonMin + ',' + boundingBox.latMax + ',' + boundingBox.lonMax + ')';
   }
@@ -20,35 +19,22 @@ var overpass = (function () {
   /**
    * Function to retrieve stuff from overpass. Query in the form of ["leisure"="playground"]
    */
-  function getResults(qr, cb) {
-    query = qr;
+
+  function performRequest(query, cb) {
     callback = cb;
 
-    navigator.geolocation.getCurrentPosition(performRequest);
-  }
-
-  function sortResults(results) {
-    
-
-  }
-
-  function performRequest(position) {
-
-    var boundingBoxStr = createBoundingBoxStr(position);
+    var boundingBoxStr = createBoundingBoxStr(currentPosition);
 
     $.getJSON(overpassUrl + '(node' + query + boundingBoxStr + ';);out body;>;out skel qt;',
       function( data ) {
         console.log(data);
 
-        //TODO: preprocess elements
-        if(data.elements) {
-          callback(data.elements);
-        }
+        callback(data);
     });
   }
 
   return {
-    getResults: getResults
+    performRequest: performRequest
   };
 
 })();
