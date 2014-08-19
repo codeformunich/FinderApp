@@ -62,9 +62,10 @@ currentPosition = null;
 
   function createView(result, index) {
     leaf.addMarker(result.toCoords(), 'Spielplatz #' + (index+1));
-    $('main').append('<section class="card textcard">' +
-                      '<h1><strong>Ein Spielplatz</strong></h1><h2>Yes! Another card!</h2>' +
-                      '</section>')
+
+    var resultView = new ResultView({model: result});
+
+    $('main').append(resultView.el)
   }
 
 
