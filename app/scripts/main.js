@@ -61,6 +61,7 @@ currentPosition = null;
 
 
   function createView(result, index) {
+    console.log(result);
     leaf.addMarker(result.toCoords(), 'Spielplatz #' + (index+1));
 
     var resultView = new ResultView({model: result});

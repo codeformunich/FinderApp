@@ -4,8 +4,8 @@
 var overpass = (function () {
   'use strict';
 
-  var overpassUrl = 'http://overpass-api.de/api/interpreter?data=[out:json][timeout:25];';
-  var overpassOutputParams = ';out body;>;out skel qt;';
+  var overpassUrl = 'http://overpass-api.de/api/interpreter?data=[out:json][timeout:25];(';
+  var overpassOutputParams = ');out body;>;out skel qt;';
   var callback;
 
   function createBoundingBoxStr(position) {
@@ -25,7 +25,7 @@ var overpass = (function () {
 
     var boundingBoxStr = createBoundingBoxStr(currentPosition);
 
-    $.getJSON(overpassUrl + '(node' + query + boundingBoxStr + ';);out body;>;out skel qt;',
+    $.getJSON(overpassUrl + 'node' + query + boundingBoxStr + ';' + 'way' +  query + boundingBoxStr + ';' + overpassOutputParams,
       function( data ) {
         console.log(data);
 
