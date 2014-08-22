@@ -54,6 +54,7 @@ currentPosition = null;
   //Custom code
   function processOverpassResults(result) {
     var results = new ResultCollection(result, {parse: true});
+    results.removeDuplicates();
     console.log(results);
 
     results.each(createView)

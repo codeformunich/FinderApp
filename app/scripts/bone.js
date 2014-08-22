@@ -43,6 +43,26 @@ ResultCollection = Backbone.Collection.extend({
     })
 
     return _.extend(way, geoloc.getCenterFor(way.nodeCoords));
+  },
+
+  removeDuplicates: function() {
+    //always only compare to the next model as they are ordered by distance
+
+    this.each(function(result1) {
+
+      var duplicates = this.filter(function(result2){
+        if(result1 === result2){
+          return false;
+        } else {
+          var dist = geoloc.getDistanceBetween(result1.toCoords(), result2.toCoords());
+          return dist < 50;
+        }
+      });
+
+      this.remove(duplicates);
+    }, this);
+
+    console.log(this);
   }
 })
 
