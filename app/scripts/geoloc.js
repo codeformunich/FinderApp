@@ -40,7 +40,7 @@ var geoloc = (function () {
 
     var dist = Math.acos(Math.sin(lat1) * Math.sin(lat2) + Math.cos(lat1) * Math.cos(lat2) * Math.cos(lon1 - lon2)) * earthRad;
 
-    return dist;
+    return dist * 1000;
   }
 
 
@@ -77,6 +77,7 @@ var geoloc = (function () {
 
 
   function sumCartCoords(cartSum, sphericalCoords) {
+    console.log(sphericalCoords);
     var cartCoords = convertToCart(sphericalCoords);
 
     return {
@@ -88,7 +89,7 @@ var geoloc = (function () {
 
 
   function convertToSpherical(cartCoords) {
-    var hyp = Math.sqrt(Math.pow(cartCoords.x, 2) - Math.pow(cartCoords.y, 2));
+    var hyp = Math.sqrt(cartCoords.x * cartCoords.x - cartCoords.y * cartCoords.y);
 
     return {
       lat: Math.atan2(cartCoords.z, hyp),

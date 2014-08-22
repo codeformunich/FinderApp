@@ -61,8 +61,12 @@ currentPosition = null;
 
 
   function createView(result, index) {
-    console.log(result);
-    leaf.addMarker(result.toCoords(), 'Spielplatz #' + (index+1));
+
+    // if (result.get('type') === 'way') {
+      leaf.addMarker(result.toCoords(), {
+        popupText: 'Spielplatz #' + (index+1),
+      });
+    // }
 
     var resultView = new ResultView({model: result});
 
@@ -74,7 +78,7 @@ currentPosition = null;
 
   //get current position before rendering anything
   navigator.geolocation.getCurrentPosition(function(position) {
-
+    console.log('Found position!')
     currentPosition = {
       lat: position.coords.latitude,
       lon: position.coords.longitude

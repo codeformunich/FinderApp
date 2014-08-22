@@ -24,9 +24,21 @@ var leaf = (function () {
     map.locate({setView: true, maxZoom: 16});
   }
 
-  function addMarker(coords, popupText)  {
-    L.marker([coords.lat, coords.lon])
-      .addTo(map).bindPopup(popupText);
+  function addMarker(coords, markerOptions)  {
+    var options = markerOptions || {};
+    var marker;
+
+    if (options.circle === true) {
+      marker = L.circleMarker([coords.lat, coords.lon]);
+    } else {
+      marker = L.marker([coords.lat, coords.lon]);
+    }
+
+    marker.addTo(map);
+
+    if(options.popupText){
+      marker.bindPopup(options.popupText);
+    }
   }
 
   return {
