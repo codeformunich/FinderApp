@@ -8,13 +8,16 @@ var geoloc = (function () {
   var wgs84_a = 6378137.0,
       wgs84_b = 6356752.3;
 
+
   function degToRad(deg) {
     return deg * (Math.PI/180);
   }
 
+
   function radToDeg(rad) {
     return rad * (180/Math.PI);
   }
+
 
   //Earth radius at a given latitude, according to the WGS-84 ellipsoid [m]
   //http://en.wikipedia.org/wiki/Earth_radius
@@ -27,6 +30,7 @@ var geoloc = (function () {
     return Math.sqrt((an*an + bn*bn)/(ad*ad + bd*bd));
   }
 
+
   function getDistanceBetween(coords1, coords2) {
     var earthRad = 6371,
         lat1 = degToRad(coords1.lat),
@@ -38,6 +42,7 @@ var geoloc = (function () {
 
     return dist;
   }
+
 
   function getBoundingBoxFor(coords, distance) {
 
@@ -58,8 +63,62 @@ var geoloc = (function () {
     return result;
   }
 
+
+  function convertToCart(coords) {
+    var lat = degToRad(coords.lat);
+    var lon = degToRad(coords.lon);
+
+    var x = Math.cos(lat) * Math.cos(lon);
+    var y = Math.cos(lat) * Math.sin(lon);
+    var z = Math.sin(lat);
+
+    return {x: x, y: y, z: z};
+  }
+
+
+  function sumCartCoords(cartSum, sphericalCoords) {
+    var cartCoords = convertToCart(sphericalCoords);
+
+    return {
+      x: cartSum.x + cartCoords.x,
+      y: cartSum.y + cartCoords.y,
+      z: cartSum.z + cartCoords.z
+    };
+  }
+
+
+  function convertToSpherical(cartCoords) {
+    var hyp = Math.sqrt(Math.pow(cartCoords.x, 2) - Math.pow(cartCoords.y, 2));
+
+    return {
+      lat: Math.atan2(cartCoords.z, hyp),
+      lon: Math.atan2(cartCoords.y, cartCoords.x)
+    }
+  }
+
+
+  /**
+   * Compute the center for a given array of coordinates
+   */
+  function getCenterFor(coordsArr) {
+    var cartSum = _.reduce(coordsArr, sumCartCoords, {x:0, y:0, z:0});
+
+    var center = convertToSpherical({
+      x: cartSum.x / coordsArr.length,
+      y: cartSum.y / coordsArr.length,
+      z: cartSum.z / coordsArr.length
+    });
+
+    return {
+      lat: radToDeg(center.lat),
+      lon: radToDeg(center.lon)
+    }
+  }
+
+
   return {
     getDistanceBetween: getDistanceBetween,
-    getBoundingBoxFor: getBoundingBoxFor
+    getBoundingBoxFor: getBoundingBoxFor,
+    getCenterFor: getCenterFor
   };
 })();

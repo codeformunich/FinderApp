@@ -13,8 +13,8 @@ ResultCollection = Backbone.Collection.extend({
     var resultArray = result.elements;
 
     for(var i=0; i<resultArray.length; i++){
-      if(resultArray[i].type = 'way') {
-        resultArray[i] = this.processWay(resultArray[i], resultArray);
+      if(resultArray[i].type === 'way' && resultArray[i].nodes) {
+          resultArray[i] = this.processWay(resultArray[i], resultArray);
       }
     }
 
@@ -30,20 +30,19 @@ ResultCollection = Backbone.Collection.extend({
   },
 
   processWay: function(way, resultArray) {
+    way.nodeCoords = [];
+
     _.each(way.nodes, function(nodeId) {
       var wayNode = _.findWhere(resultArray, {id: nodeId});
-      //TODO: create center of way
 
-      if(wayNode){
-        way.lat = wayNode.lat;
-        way.lon = wayNode.lon;
+      if(wayNode) {
+        way.nodeCoords.push(wayNode);
         wayNodeIndex = resultArray.indexOf(wayNode);
         resultArray.splice(wayNodeIndex, 1);
       }
     })
 
-    console.log(resultArray.length);
-    return way;
+    return _.extend(way, geoloc.getCenterFor(way.nodeCoords));
   }
 })
 
