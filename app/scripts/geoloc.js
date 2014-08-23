@@ -89,7 +89,7 @@ var geoloc = (function () {
 
 
   function convertToSpherical(cartCoords) {
-    var hyp = Math.sqrt(cartCoords.x * cartCoords.x - cartCoords.y * cartCoords.y);
+    var hyp = Math.sqrt(cartCoords.x * cartCoords.x + cartCoords.y * cartCoords.y);
 
     return {
       lat: Math.atan2(cartCoords.z, hyp),
@@ -101,7 +101,7 @@ var geoloc = (function () {
   /**
    * Compute the center for a given array of coordinates
    */
-  function getCenterFor(coordsArr) {
+  function getCentroid(coordsArr) {
     var cartSum = _.reduce(coordsArr, sumCartCoords, {x:0, y:0, z:0});
 
     var center = convertToSpherical({
@@ -120,6 +120,6 @@ var geoloc = (function () {
   return {
     getDistanceBetween: getDistanceBetween,
     getBoundingBoxFor: getBoundingBoxFor,
-    getCenterFor: getCenterFor
+    getCentroid: getCentroid
   };
 })();

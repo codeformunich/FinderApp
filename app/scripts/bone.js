@@ -42,7 +42,7 @@ ResultCollection = Backbone.Collection.extend({
       }
     })
 
-    return _.extend(way, geoloc.getCenterFor(way.nodeCoords));
+    return _.extend(way, geoloc.getCentroid(way.nodeCoords));
   },
 
   removeDuplicates: function() {
