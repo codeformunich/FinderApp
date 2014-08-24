@@ -1,6 +1,7 @@
 {
   "devDependencies": {
     "browser-sync": "^1.1.2",
+    "browserify": "^5.10.1",
     "del": "^0.1.1",
     "gulp": "^3.8.5",
     "gulp-autoprefixer": "^0.0.8",
