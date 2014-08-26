@@ -110,11 +110,7 @@ gulp.task('styles:css', function () {
 // Compile Sass For Style Guide Components (app/styles/components)
 gulp.task('styles:components', function () {
   return gulp.src('app/styles/components/components.scss')
-    .pipe($.rubySass({
-      style: 'expanded',
-      precision: 10,
-      loadPath: ['app/styles/components']
-    }))
+    .pipe($.sass())
     .on('error', console.error.bind(console))
     .pipe($.autoprefixer(AUTOPREFIXER_BROWSERS))
     .pipe(gulp.dest('app/styles/components'))
@@ -124,11 +120,7 @@ gulp.task('styles:components', function () {
 // Compile Any Other Sass Files You Added (app/styles)
 gulp.task('styles:scss', function () {
   return gulp.src(['app/styles/**/*.scss', '!app/styles/components/components.scss'])
-    .pipe($.rubySass({
-      style: 'expanded',
-      precision: 10,
-      loadPath: ['app/styles']
-    }))
+    .pipe($.sass())
     .on('error', console.error.bind(console))
     .pipe($.autoprefixer(AUTOPREFIXER_BROWSERS))
     .pipe(gulp.dest('.tmp/styles'))
