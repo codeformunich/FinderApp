@@ -27,6 +27,7 @@ var runSequence = require('run-sequence');
 var browserSync = require('browser-sync');
 var browserify = require('browserify');
 var pagespeed = require('psi');
+var source = require('vinyl-source-stream');
 var reload = browserSync.reload;
 
 var AUTOPREFIXER_BROWSERS = [
@@ -44,7 +45,6 @@ var AUTOPREFIXER_BROWSERS = [
 // Lint JavaScript
 gulp.task('jshint', function () {
   return gulp.src(['app/scripts/**/*.js', '!app/scripts/vendor/**/*.js'])
-    .pipe(reload({stream: true, once: true}))
     .pipe($.jshint())
     .pipe($.jshint.reporter('jshint-stylish'))
     .pipe($.if(!browserSync.active, $.jshint.reporter('fail')));
@@ -149,6 +149,18 @@ gulp.task('html', function () {
     .pipe($.size({title: 'html'}));
 });
 
+
+//Use browserify
+gulp.task('browserify', function() {
+    return browserify('./app/scripts/app.js')
+        .bundle()
+        //Pass desired output filename to vinyl-source-stream
+        .pipe(source('bundle.js'))
+        // Start piping stream to tasks!
+        .pipe(gulp.dest('app/build/'))
+        .pipe(reload({stream: true, once: true}));
+});
+
 // Clean Output Directory
 gulp.task('clean', del.bind(null, ['.tmp', 'dist']));
 
@@ -164,7 +176,7 @@ gulp.task('serve', function () {
   gulp.watch(['app/**/*.html'], reload);
   gulp.watch(['app/styles/**/*.scss'], ['styles:components', 'styles:scss']);
   gulp.watch(['{.tmp,app}/styles/**/*.css'], ['styles:css', reload]);
-  gulp.watch(['app/scripts/**/*.js'], ['jshint']);
+  gulp.watch(['app/scripts/**/*.js'], ['browserify', 'jshint']);
   gulp.watch(['app/images/**/*'], reload);
 });
 

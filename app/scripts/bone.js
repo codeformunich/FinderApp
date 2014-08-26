@@ -1,7 +1,15 @@
-Result = Backbone.Model.extend({
+'use strict';
+
+var $ = require('jquery');
+var _ = require('underscore');
+var Backbone = require('backbone');
+var geoloc = require('./geoloc');
+Backbone.$ = $;
+
+var Result = Backbone.Model.extend({
 
   getDistance: function(){
-    return geoloc.getDistanceBetween(currentPosition, this.toCoords());
+    return geoloc.getDistanceBetween(this.get('currentPosition'), this.toCoords());
   },
 
   toCoords: function(){
@@ -10,13 +18,16 @@ Result = Backbone.Model.extend({
 });
 
 
-ResultCollection = Backbone.Collection.extend({
+var ResultCollection = Backbone.Collection.extend({
   model: Result,
 
   parse: function(result) {
     var resultArray = result.elements;
 
     for(var i=0; i<resultArray.length; i++){
+      console.log(result.currentPosition);
+      resultArray[i].currentPosition = result.currentPosition;
+
       if(resultArray[i].type === 'way' && resultArray[i].nodes) {
           resultArray[i] = this.processWay(resultArray[i], resultArray);
       }
@@ -37,10 +48,10 @@ ResultCollection = Backbone.Collection.extend({
 
       if(wayNode) {
         way.nodeCoords.push(wayNode);
-        wayNodeIndex = resultArray.indexOf(wayNode);
+        var wayNodeIndex = resultArray.indexOf(wayNode);
         resultArray.splice(wayNodeIndex, 1);
       }
-    })
+    });
 
     return _.extend(way, geoloc.getCentroid(way.nodeCoords));
   },
@@ -64,22 +75,29 @@ ResultCollection = Backbone.Collection.extend({
 
     console.log(this);
   }
-})
+});
 
 
-ResultView = Backbone.View.extend({
+var ResultView = Backbone.View.extend({
 
-      initialize: function(){
-          this.render();
-      },
+    initialize: function(){
+        this.render();
+    },
 
-      render: function(){
-          // Compile the template using underscore
-          var template = _.template( '<section class="card textcard">' +
-                            '<h1><strong>Ein Spielplatz</strong></h1>'+
-                            '<h2>Entfernung: <%= Math.round(result.getDistance()) %> m</h2>' +
-                            '</section>', {result: this.model} );
-          // Load the compiled HTML into the Backbone "el"
-          this.$el.html( template );
-      }
-  });
+    render: function(){
+        // Compile the template using underscore
+        var template = _.template( '<section class="card textcard">' +
+                          '<h1><strong>Ein Spielplatz</strong></h1>'+
+                          '<h2>Entfernung: <%= Math.round(result.getDistance()) %> m</h2>' +
+                          '</section>', {result: this.model} );
+        // Load the compiled HTML into the Backbone "el"
+        this.$el.html( template );
+    }
+});
+
+
+module.exports = {
+  Result: Result,
+  ResultCollection: ResultCollection,
+  ResultView: ResultView
+};
