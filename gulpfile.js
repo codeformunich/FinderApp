@@ -50,6 +50,27 @@ gulp.task('jshint', function () {
     .pipe($.if(!browserSync.active, $.jshint.reporter('fail')));
 });
 
+
+//Use browserify
+gulp.task('browserify', function() {
+    return browserify('./app/scripts/app.js')
+        .bundle()
+        //Pass desired output filename to vinyl-source-stream
+        .pipe(source('bundle.js'))
+        // Start piping stream to tasks!
+        .pipe(gulp.dest('app/build/'))
+        .pipe(reload({stream: true, once: true}));
+});
+
+
+// Copy All Files At The Root Level (app)
+gulp.task('copyLeaflet', function () {
+  return gulp.src('node_modules/leaflet/dist/images/*.png')
+    .pipe(gulp.dest('app/images/leaflet'))
+    .pipe($.size({title: 'copyLeaflet'}));
+});
+
+
 // Optimize Images
 gulp.task('images', function () {
   return gulp.src('app/images/**/*')
@@ -147,18 +168,6 @@ gulp.task('html', function () {
     // Output Files
     .pipe(gulp.dest('dist'))
     .pipe($.size({title: 'html'}));
-});
-
-
-//Use browserify
-gulp.task('browserify', function() {
-    return browserify('./app/scripts/app.js')
-        .bundle()
-        //Pass desired output filename to vinyl-source-stream
-        .pipe(source('bundle.js'))
-        // Start piping stream to tasks!
-        .pipe(gulp.dest('app/build/'))
-        .pipe(reload({stream: true, once: true}));
 });
 
 // Clean Output Directory

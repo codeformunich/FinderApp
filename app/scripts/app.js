@@ -79,8 +79,6 @@ function createView(result, index) {
   $('main').append(resultView.el);
 }
 
-console.log(leaf);
-
 leaf.initializeMap();
 
 //get current position before rendering anything
