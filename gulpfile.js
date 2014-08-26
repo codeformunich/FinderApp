@@ -53,7 +53,8 @@ gulp.task('jshint', function () {
 
 //Use browserify
 gulp.task('browserify', function() {
-    return browserify('./app/scripts/app.js')
+    return browserify({debug: true})
+        .add('./app/scripts/app.js')
         .bundle()
         //Pass desired output filename to vinyl-source-stream
         .pipe(source('bundle.js'))
