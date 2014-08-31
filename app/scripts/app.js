@@ -2,7 +2,8 @@
 'use strict';
 var $ = require('jquery');
 var leaf = require('./leaf');
-var bone = require('./bone');
+var mapNode = require('./backbone/map-node');
+var CardView = require('./backbone/card-view');
 var overpass = require('./overpass');
 var starterkit = require('./vendor/starterkit');
 
@@ -13,25 +14,24 @@ var currentPosition;
 //Custom code
 function processOverpassResults(result) {
   result.currentPosition = currentPosition;
-  var results = new bone.ResultCollection(result, {parse: true});
-  results.removeDuplicates();
-  console.log(results);
+  var mapNodes = new mapNode.Collection(result, {parse: true});
+  mapNodes.removeDuplicates();
+  console.log(mapNodes);
 
-  results.each(createView);
+  mapNodes.each(createView);
 }
 
 
-function createView(result, index) {
-  console.log(result);
-  // if (result.get('type') === 'way') {
-    leaf.addMarker(result.toCoords(), {
-      popupText: 'Spielplatz #' + (index+1),
-    });
-  // }
 
-  var resultView = new bone.ResultView({model: result});
+function createView(mapNode, index) {
 
-  $('main').append(resultView.el);
+  leaf.addMarker(mapNode.toCoords(), {
+    popupText: 'Spielplatz #' + (index+1),
+  });
+
+  var cardView = new CardView({model: mapNode});
+
+  $('main').append(cardView.el);
 }
 
 leaf.initializeMap();
