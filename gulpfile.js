@@ -47,7 +47,7 @@ var AUTOPREFIXER_BROWSERS = [
 gulp.task('browserify', function() {
     return browserify({debug: true})
         .add('./app/scripts/app.js')
-        .bundle()
+        .bundle().on('error', function(err){ console.log(err.message); })
         //Pass desired output filename to vinyl-source-stream
         .pipe(source('bundle.js'))
         // Start piping stream to tasks!
