@@ -10,31 +10,35 @@ var starterkit = require('./vendor/starterkit');
 starterkit.initialize();
 
 var currentPosition;
+var mapNodes;
 
 
 leaf.initializeMap();
 
-leaf.locate(positionFound);
+leaf.locate(processPosition);
 
 //get current position before rendering anything
-function positionFound(position) {
+function processPosition(position) {
   console.log('Found position!');
   console.log(position);
-  
-  currentPosition = {
-    lat: position.latitude,
-    lon: position.longitude
-  };
 
-  overpass.performRequest(currentPosition, '["leisure"="playground"]', processOverpassResults);
+
+  if (currentPosition &&
+      JSON.stringify(currentPosition.latlng) === JSON.stringify(position.latlng)) {
+    mapNodes.sort();
+  } else {
+    overpass.performRequest({lat: position.latitude, lon: position.longitude},
+                            '["leisure"="playground"]', processOverpassResults);
+  }
+
+  currentPosition = position;
 }
 
 
 function processOverpassResults(result) {
-  result.currentPosition = currentPosition;
-  var mapNodes = new mapNode.Collection(result, {parse: true});
+  result.currentPosition = {lat: currentPosition.latitude, lon: currentPosition.longitude};
+  mapNodes = new mapNode.Collection(result, {parse: true});
   mapNodes.removeDuplicates();
-  console.log(mapNodes);
 
   mapNodes.each(createView);
 }

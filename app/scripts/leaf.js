@@ -8,6 +8,8 @@ var L = require('leaflet');
 var map;
 var apikey = 'a5fdf236c7fb42d794a43e94be030fb2';
 
+var positionMarker;
+
 
 function initializeMap() {
   var tp;
@@ -30,7 +32,7 @@ function initializeMap() {
 
 
 function locate(cb) {
-  map.on('locationfound', onLocationFound);
+  map.on('locationfound', setUserPosition);
   map.on('locationfound', cb);
   map.on('locationerror', onLocationError);
 
@@ -38,10 +40,15 @@ function locate(cb) {
 }
 
 
-function onLocationFound(e) {
+function setUserPosition(e) {
     var radius = e.accuracy / 2;
 
-    L.circle(e.latlng, radius).addTo(map);
+    if(positionMarker) {
+      map.removeLayer(positionMarker);
+    }
+
+    positionMarker = new L.Circle(e.latlng, radius);
+    map.addLayer(positionMarker);
 }
 
 function onLocationError(e) {
