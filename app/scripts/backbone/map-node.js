@@ -10,7 +10,11 @@ Backbone.$ = $;
 var MapNode = Backbone.Model.extend({
 
   getDistance: function(){
-    return geoloc.getDistanceBetween(this.get('currentPosition'), this.toCoords());
+    var positionVal = {
+      lat: window.currentPosition.latitude,
+      lon: window.currentPosition.longitude
+    };
+    return geoloc.getDistanceBetween(positionVal, this.toCoords());
   },
 
   toCoords: function(){
@@ -26,7 +30,6 @@ var MapNodeCollection = Backbone.Collection.extend({
     var nodeArray = data.elements;
 
     for(var i=0; i<nodeArray.length; i++){
-      nodeArray[i].currentPosition = data.currentPosition;
 
       if(nodeArray[i].type === 'way' && nodeArray[i].nodes) {
           nodeArray[i] = this.processWay(nodeArray[i], nodeArray);
