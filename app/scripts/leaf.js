@@ -11,7 +11,7 @@ var apikey = 'a5fdf236c7fb42d794a43e94be030fb2';
 
 function initializeMap() {
   var tp;
-  
+
   L.Icon.Default.imagePath = '/images/leaflet';
   map = L.map('map');
 
@@ -26,8 +26,28 @@ function initializeMap() {
     attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="http://mapbox.com">Mapbox</a>',
     maxZoom: 18
   }).addTo(map);
-  map.locate({setView: true, maxZoom: 16});
 }
+
+
+function locate(cb) {
+  map.on('locationfound', onLocationFound);
+  map.on('locationfound', cb);
+  map.on('locationerror', onLocationError);
+
+  map.locate({setView: true, maxZoom: 16, watch: true});
+}
+
+
+function onLocationFound(e) {
+    var radius = e.accuracy / 2;
+
+    L.circle(e.latlng, radius).addTo(map);
+}
+
+function onLocationError(e) {
+    alert(e.message);
+}
+
 
 function addMarker(coords, markerOptions)  {
   var options = markerOptions || {};
@@ -46,7 +66,9 @@ function addMarker(coords, markerOptions)  {
   }
 }
 
+
 module.exports = {
   initializeMap: initializeMap,
+  locate: locate,
   addMarker: addMarker
 };

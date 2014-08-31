@@ -11,7 +11,25 @@ starterkit.initialize();
 
 var currentPosition;
 
-//Custom code
+
+leaf.initializeMap();
+
+leaf.locate(positionFound);
+
+//get current position before rendering anything
+function positionFound(position) {
+  console.log('Found position!');
+  console.log(position);
+  
+  currentPosition = {
+    lat: position.latitude,
+    lon: position.longitude
+  };
+
+  overpass.performRequest(currentPosition, '["leisure"="playground"]', processOverpassResults);
+}
+
+
 function processOverpassResults(result) {
   result.currentPosition = currentPosition;
   var mapNodes = new mapNode.Collection(result, {parse: true});
@@ -20,7 +38,6 @@ function processOverpassResults(result) {
 
   mapNodes.each(createView);
 }
-
 
 
 function createView(mapNode, index) {
@@ -33,16 +50,3 @@ function createView(mapNode, index) {
 
   $('main').append(cardView.el);
 }
-
-leaf.initializeMap();
-
-//get current position before rendering anything
-navigator.geolocation.getCurrentPosition(function(position) {
-  console.log('Found position!');
-  currentPosition = {
-    lat: position.coords.latitude,
-    lon: position.coords.longitude
-  };
-
-  overpass.performRequest(currentPosition, '["leisure"="playground"]', processOverpassResults);
-});
