@@ -79,7 +79,6 @@ function convertToCart(coords) {
 
 
 function sumCartCoords(cartSum, sphericalCoords) {
-  console.log(sphericalCoords);
   var cartCoords = convertToCart(sphericalCoords);
 
   return {

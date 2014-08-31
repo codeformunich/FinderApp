@@ -25,7 +25,6 @@ var ResultCollection = Backbone.Collection.extend({
     var resultArray = result.elements;
 
     for(var i=0; i<resultArray.length; i++){
-      console.log(result.currentPosition);
       resultArray[i].currentPosition = result.currentPosition;
 
       if(resultArray[i].type === 'way' && resultArray[i].nodes) {
@@ -58,10 +57,11 @@ var ResultCollection = Backbone.Collection.extend({
 
   removeDuplicates: function() {
     //always only compare to the next model as they are ordered by distance
+    var duplicates = [];
 
     this.each(function(result1) {
 
-      var duplicates = this.filter(function(result2){
+      var currentDuplicates = this.filter(function(result2){
         if(result1 === result2){
           return false;
         } else {
@@ -70,10 +70,11 @@ var ResultCollection = Backbone.Collection.extend({
         }
       });
 
-      this.remove(duplicates);
+      duplicates.push(currentDuplicates);
+
     }, this);
 
-    console.log(this);
+    this.remove(duplicates);
   }
 });
 
@@ -89,9 +90,9 @@ var ResultView = Backbone.View.extend({
         var template = _.template( '<section class="card textcard">' +
                           '<h1><strong>Ein Spielplatz</strong></h1>'+
                           '<h2>Entfernung: <%= Math.round(result.getDistance()) %> m</h2>' +
-                          '</section>', {result: this.model} );
+                          '</section>');
         // Load the compiled HTML into the Backbone "el"
-        this.$el.html( template );
+        this.$el.html( template({result: this.model}));
     }
 });
 
