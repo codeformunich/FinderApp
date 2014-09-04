@@ -45,26 +45,26 @@ var AUTOPREFIXER_BROWSERS = [
 
 //Use browserify
 gulp.task('browserify', function() {
-    return browserify({debug: true})
-        .add('./app/scripts/app.js')
-        .bundle().on('error', function(err){ console.log(err.message); })
-        //Pass desired output filename to vinyl-source-stream
-        .pipe(source('bundle.js'))
-        // Start piping stream to tasks!
-        .pipe(gulp.dest('app/build/'))
-        .pipe(reload({stream: true, once: true}));
+  return browserify({debug: true})
+      .add('./app/scripts/app.js')
+      .bundle()
+      //Pass desired output filename to vinyl-source-stream
+      .pipe(source('bundle.js'))
+      // Start piping stream to tasks!
+      .pipe(gulp.dest('app/build/'))
+      .pipe(reload({stream: true, once: true}));
 });
 
 
 // Copy All Files At The Root Level (app)
-gulp.task('copyLeaflet', function () {
+gulp.task('copyLeaflet', function() {
   return gulp.src('node_modules/leaflet/dist/images/*.png')
     .pipe(gulp.dest('app/images/leaflet'))
     .pipe($.size({title: 'copyLeaflet'}));
 });
 
 // Lint JavaScript
-gulp.task('jshint', function () {
+gulp.task('jshint', function() {
   return gulp.src('app/scripts/**/*.js')
     .pipe($.jshint())
     .pipe($.jshint.reporter('jshint-stylish'))
@@ -72,7 +72,7 @@ gulp.task('jshint', function () {
 });
 
 // Optimize Images
-gulp.task('images', function () {
+gulp.task('images', function() {
   return gulp.src('app/images/**/*')
     .pipe($.cache($.imagemin({
       progressive: true,
@@ -83,7 +83,7 @@ gulp.task('images', function () {
 });
 
 // Copy All Files At The Root Level (app)
-gulp.task('copy', function () {
+gulp.task('copy', function() {
   return gulp.src([
     'app/*',
     '!app/*.html',
@@ -95,20 +95,20 @@ gulp.task('copy', function () {
 });
 
 // Copy Web Fonts To Dist
-gulp.task('fonts', function () {
+gulp.task('fonts', function() {
   return gulp.src(['app/fonts/**'])
     .pipe(gulp.dest('dist/fonts'))
     .pipe($.size({title: 'fonts'}));
 });
 
 // Compile and Automatically Prefix Stylesheets
-gulp.task('styles', function () {
+gulp.task('styles', function() {
   // For best performance, don't add Sass partials to `gulp.src`
   return gulp.src([
-      'app/styles/*.scss',
-      'app/styles/**/*.css',
-      'app/styles/components/components.scss'
-    ])
+    'app/styles/*.scss',
+    'app/styles/**/*.css',
+    'app/styles/components/components.scss'
+  ])
     .pipe($.changed('styles', {extension: '.scss'}))
     .pipe($.sass()
       .on('error', console.error.bind(console))
@@ -122,7 +122,7 @@ gulp.task('styles', function () {
 });
 
 // Scan Your HTML For Assets & Optimize Them
-gulp.task('html', function () {
+gulp.task('html', function() {
   var assets = $.useref.assets({searchPath: '{.tmp,app}'});
 
   return gulp.src('app/**/*.html')
@@ -161,7 +161,7 @@ gulp.task('html', function () {
 gulp.task('clean', del.bind(null, ['.tmp', 'dist']));
 
 // Watch Files For Changes & Reload
-gulp.task('serve', ['styles'], function () {
+gulp.task('serve', ['styles'], function() {
   browserSync({
     notify: false,
     // Run as an https by uncommenting 'https: true'
@@ -180,7 +180,7 @@ gulp.task('serve', ['styles'], function () {
 });
 
 // Build and serve the output from the dist build
-gulp.task('serve:dist', ['default'], function () {
+gulp.task('serve:dist', ['default'], function() {
   browserSync({
     notify: false,
     // Run as an https by uncommenting 'https: true'

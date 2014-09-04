@@ -2,46 +2,51 @@
 'use strict';
 var $ = require('jquery');
 var leaf = require('./leaf');
-var mapNode = require('./backbone/map-node');
+var mapNodeCollection = require('./backbone/map-node-collection');
 var ListView = require('./backbone/list-view');
 var overpass = require('./overpass');
 var starterkit = require('./vendor/starterkit');
 
 starterkit.initialize();
 
-var mapNodes;
+module.exports = {
 
+  blastoff: function() {
+    window.app = this;
+    leaf.initializeMap();
+    leaf.locate(app.processPosition);
+    console.log('Blastoff!');
+  },
 
-leaf.initializeMap();
+  processPosition: function(position) {
+    console.log('Found position!');
+    console.log(position);
 
-leaf.locate(processPosition);
+    if (!app.currentPosition) {
+      app.currentPosition = position;
+      overpass.performRequest({lat: position.latitude, lon: position.longitude},
+                              '["leisure"="playground"]',
+                              app.processOverpassResults);
+    } else if (JSON.stringify(app.currentPosition.latlng) !==
+                JSON.stringify(position.latlng)) {
+      app.currentPosition = position;
+      app.mapNodes.sort();
+    }
+  },
 
-//get current position before rendering anything
-function processPosition(position) {
-  console.log('Found position!');
-  console.log(position);
+  processOverpassResults: function(result) {
+    app.mapNodes = new mapNodeCollection(result, {parse: true});
+    app.mapNodes.removeDuplicates();
 
-  if (!window.currentPosition) {
-    window.currentPosition = position;
-    overpass.performRequest({lat: position.latitude, lon: position.longitude},
-                            '["leisure"="playground"]', processOverpassResults);
-  } else if (JSON.stringify(window.currentPosition.latlng) !== JSON.stringify(position.latlng)) {
-    window.currentPosition = position;
-    mapNodes.sort();
-  }
-}
+    var listView = new ListView({collection: app.mapNodes});
+    $('main').append(listView.el);
 
-
-function processOverpassResults(result) {
-  mapNodes = new mapNode.Collection(result, {parse: true});
-  mapNodes.removeDuplicates();
-
-  var listView = new ListView({collection: mapNodes});
-  $('main').append(listView.el);
-
-  mapNodes.each(function(mapNode, index) {
-    leaf.addMarker(mapNode.toCoords(), {
-      popupText: 'Spielplatz #' + (index+1),
+    app.mapNodes.each(function(mapNode, index) {
+      leaf.addMarker(mapNode.toCoords(), {
+        popupText: 'Spielplatz #' + (index + 1),
+      });
     });
-  });
-}
+  }
+};
+
+module.exports.blastoff();

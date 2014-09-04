@@ -4,35 +4,19 @@ var $ = require('jquery');
 var _ = require('underscore');
 var Backbone = require('backbone');
 var geoloc = require('../geoloc');
+var MapNodeModel = require('./map-node-model');
 Backbone.$ = $;
 
-
-var MapNode = Backbone.Model.extend({
-
-  getDistance: function(){
-    var positionVal = {
-      lat: window.currentPosition.latitude,
-      lon: window.currentPosition.longitude
-    };
-    return geoloc.getDistanceBetween(positionVal, this.toCoords());
-  },
-
-  toCoords: function(){
-    return {lat: this.get('lat'), lon: this.get('lon')};
-  }
-});
-
-
-var MapNodeCollection = Backbone.Collection.extend({
-  model: MapNode,
+module.exports = Backbone.Collection.extend({
+  model: MapNodeModel,
 
   parse: function(data) {
     var nodeArray = data.elements;
 
-    for(var i=0; i<nodeArray.length; i++){
+    for (var i = 0; i < nodeArray.length; i++) {
 
-      if(nodeArray[i].type === 'way' && nodeArray[i].nodes) {
-          nodeArray[i] = this.processWay(nodeArray[i], nodeArray);
+      if (nodeArray[i].type === 'way' && nodeArray[i].nodes) {
+        nodeArray[i] = this.processWay(nodeArray[i], nodeArray);
       }
     }
 
@@ -49,7 +33,7 @@ var MapNodeCollection = Backbone.Collection.extend({
     _.each(way.nodes, function(nodeId) {
       var wayNode = _.findWhere(nodeArray, {id: nodeId});
 
-      if(wayNode) {
+      if (wayNode) {
         way.nodeCoords.push(wayNode);
         var wayNodeIndex = nodeArray.indexOf(wayNode);
         nodeArray.splice(wayNodeIndex, 1);
@@ -65,11 +49,12 @@ var MapNodeCollection = Backbone.Collection.extend({
 
     this.each(function(node1) {
 
-      var currentDuplicates = this.filter(function(node2){
-        if(node1 === node2){
+      var currentDuplicates = this.filter(function(node2) {
+        if (node1 === node2) {
           return false;
         } else {
-          var dist = geoloc.getDistanceBetween(node1.toCoords(), node2.toCoords());
+          var dist = geoloc.getDistanceBetween(node1.toCoords(),
+                                                node2.toCoords());
           return dist < 50;
         }
       });
@@ -81,9 +66,3 @@ var MapNodeCollection = Backbone.Collection.extend({
     this.remove(duplicates);
   }
 });
-
-
-module.exports = {
-  Model: MapNode,
-  Collection: MapNodeCollection
-};
