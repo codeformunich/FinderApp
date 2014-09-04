@@ -3,7 +3,7 @@
 var $ = require('jquery');
 var _ = require('underscore');
 var Backbone = require('backbone');
-var geoloc = require('../geoloc');
+var locationMath = require('location-math');
 var MapNodeModel = require('./map-node-model');
 Backbone.$ = $;
 
@@ -40,7 +40,7 @@ module.exports = Backbone.Collection.extend({
       }
     });
 
-    return _.extend(way, geoloc.getCentroid(way.nodeCoords));
+    return _.extend(way, locationMath.getCentroid(way.nodeCoords));
   },
 
   removeDuplicates: function() {
@@ -53,7 +53,7 @@ module.exports = Backbone.Collection.extend({
         if (node1 === node2) {
           return false;
         } else {
-          var dist = geoloc.getDistanceBetween(node1.toCoords(),
+          var dist = locationMath.getDistance(node1.toCoords(),
                                                 node2.toCoords());
           return dist < 50;
         }

@@ -4,7 +4,7 @@
 'use strict';
 
 var $ = require('jquery');
-var geoloc = require('./geoloc');
+var locationMath = require('location-math');
 
 var overpassUrl = 'http://overpass-api.de/api/interpreter?' +
                   'data=[out:json][timeout:25];(';
@@ -12,8 +12,8 @@ var overpassOutputParams = ');out body;>;out skel qt;';
 var callback;
 
 function createBoundingBoxStr(position) {
-  console.log(geoloc.getBoundingBoxFor(position, 1000));
-  var boundingBox = geoloc.getBoundingBoxFor(position, 1000);
+  console.log(locationMath.getBoundingBox(position, 1000));
+  var boundingBox = locationMath.getBoundingBox(position, 1000);
 
   return '(' + boundingBox.latMin + ',' + boundingBox.lonMin + ',' +
                 boundingBox.latMax + ',' + boundingBox.lonMax + ')';
