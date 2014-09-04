@@ -30,13 +30,17 @@ module.exports = {
     } else if (JSON.stringify(app.currentPosition.latlng) !==
                 JSON.stringify(position.latlng)) {
       app.currentPosition = position;
-      app.mapNodes.sort();
+
+      if (app.mapNodes) {
+        app.mapNodes.sort();
+      }
     }
   },
 
   processOverpassResults: function(result) {
     app.mapNodes = new mapNodeCollection(result, {parse: true});
     app.mapNodes.removeDuplicates();
+    console.log(app.mapNodes);
 
     var listView = new ListView({collection: app.mapNodes});
     $('main').append(listView.el);

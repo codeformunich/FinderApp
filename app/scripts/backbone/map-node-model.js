@@ -1,11 +1,17 @@
 'use strict';
 
-var $ = require('jquery');
-var Backbone = require('backbone');
+var AmpersandModel = require('ampersand-model');
 var locationMath = require('location-math');
-Backbone.$ = $;
 
-module.exports = Backbone.Model.extend({
+module.exports = AmpersandModel.extend({
+
+  props: {
+    id: 'number',
+    lat: 'number',
+    lon: 'number',
+    tags: 'object',
+    type: 'string'
+  },
 
   getDistance: function() {
     var positionVal = {
