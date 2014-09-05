@@ -42,19 +42,25 @@ var AUTOPREFIXER_BROWSERS = [
   'bb >= 10'
 ];
 
-
 //Use browserify
 gulp.task('browserify', function() {
-  return browserify({debug: true})
-      .add('./app/scripts/app.js')
-      .bundle()
+  var b = browserify({
+    debug: true,
+    entries: ['./app/scripts/app.js'],
+    extensions: ['.hbs']
+  });
+
+  return b.bundle()
+      .on('error', function(err) {
+        console.log(err.message);
+        this.emit('end');
+      })
       //Pass desired output filename to vinyl-source-stream
       .pipe(source('bundle.js'))
       // Start piping stream to tasks!
       .pipe(gulp.dest('app/build/'))
       .pipe(reload({stream: true, once: true}));
 });
-
 
 // Copy All Files At The Root Level (app)
 gulp.task('copyLeaflet', function() {
@@ -195,7 +201,7 @@ gulp.task('serve:dist', ['default'], function() {
 });
 
 // Build Production Files, the Default Task
-gulp.task('default', ['clean'], function (cb) {
+gulp.task('default', ['clean'], function(cb) {
   runSequence('styles', ['jshint', 'html', 'images', 'fonts', 'copy'], cb);
 });
 
