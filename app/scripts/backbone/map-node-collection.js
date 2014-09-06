@@ -24,7 +24,7 @@ module.exports = Backbone.Collection.extend({
   },
 
   comparator: function(node) {
-    return node.getDistance();
+    return node.distance;
   },
 
   processWay: function(way, nodeArray) {

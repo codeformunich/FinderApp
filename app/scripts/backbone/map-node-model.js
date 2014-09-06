@@ -13,12 +13,19 @@ module.exports = AmpersandModel.extend({
     type: 'string'
   },
 
-  getDistance: function() {
-    var positionVal = {
-      lat: app.currentPosition.latitude,
-      lon: app.currentPosition.longitude
-    };
-    return locationMath.getDistance(positionVal, this.toCoords());
+  derived: {
+    distance: {
+      deps: ['lat', 'lon'],
+      cache: false,
+      fn: function() {
+        var positionVal = {
+          lat: app.currentPosition.latitude,
+          lon: app.currentPosition.longitude
+        };
+        var distance = locationMath.getDistance(positionVal, this.toCoords());
+        return Math.round(distance);
+      }
+    }
   },
 
   toCoords: function() {

@@ -1,8 +1,8 @@
 'use strict';
 
 var $ = require('jquery');
-var _ = require('underscore');
 var Backbone = require('backbone');
+var template = require('./templates/card');
 Backbone.$ = $;
 
 module.exports = Backbone.View.extend({
@@ -12,12 +12,7 @@ module.exports = Backbone.View.extend({
   },
 
   render: function() {
-    // Compile the template using underscore
-    var template = _.template('<section class="card textcard">' +
-                      '<h1><strong>Ein Spielplatz</strong></h1>' +
-                      '<h2>Entfernung: <%= Math.round(node.getDistance()) %>' +
-                      ' m</h2></section>');
     // Load the compiled HTML into the Backbone "el"
-    this.$el.html(template({node: this.model}));
+    this.$el.html(template(this.model));
   }
 });
