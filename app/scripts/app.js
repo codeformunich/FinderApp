@@ -40,9 +40,9 @@ module.exports = {
   processOverpassResults: function(nodesArray) {
     app.mapNodes = new mapNodeCollection(nodesArray);
     app.mapNodes.removeDuplicates();
-    console.log(app.mapNodes);
 
     var listView = new ListView({collection: app.mapNodes});
+    listView.render();
     $('main').append(listView.el);
 
     app.mapNodes.each(function(mapNode, index) {
