@@ -1,18 +1,16 @@
 'use strict';
 
-var $ = require('jquery');
-var Backbone = require('backbone');
+var AmpersandView = require('ampersand-view');
 var template = require('./templates/card');
-Backbone.$ = $;
 
-module.exports = Backbone.View.extend({
+module.exports = AmpersandView.extend({
+  autoRender: true,
+  template: template,
 
-  initialize: function() {
-    this.render();
-  },
-
-  render: function() {
-    // Load the compiled HTML into the Backbone "el"
-    this.$el.html(template(this.model));
+  bindings: {
+    'model.distance': {
+      type: 'text',
+      hook: 'distance'
+    }
   }
 });
