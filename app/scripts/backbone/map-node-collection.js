@@ -1,46 +1,14 @@
 'use strict';
 
-var $ = require('jquery');
-var _ = require('underscore');
-var Backbone = require('backbone');
 var locationMath = require('location-math');
 var MapNodeModel = require('./map-node-model');
-Backbone.$ = $;
+var AmpersandCollection = require('ampersand-collection');
 
-module.exports = Backbone.Collection.extend({
+module.exports = AmpersandCollection.extend({
   model: MapNodeModel,
-
-  parse: function(data) {
-    var nodeArray = data.elements;
-
-    for (var i = 0; i < nodeArray.length; i++) {
-
-      if (nodeArray[i].type === 'way' && nodeArray[i].nodes) {
-        nodeArray[i] = this.processWay(nodeArray[i], nodeArray);
-      }
-    }
-
-    return nodeArray;
-  },
 
   comparator: function(node) {
     return node.distance;
-  },
-
-  processWay: function(way, nodeArray) {
-    way.nodeCoords = [];
-
-    _.each(way.nodes, function(nodeId) {
-      var wayNode = _.findWhere(nodeArray, {id: nodeId});
-
-      if (wayNode) {
-        way.nodeCoords.push(wayNode);
-        var wayNodeIndex = nodeArray.indexOf(wayNode);
-        nodeArray.splice(wayNodeIndex, 1);
-      }
-    });
-
-    return _.extend(way, locationMath.getCentroid(way.nodeCoords));
   },
 
   removeDuplicates: function() {
@@ -64,5 +32,6 @@ module.exports = Backbone.Collection.extend({
     }, this);
 
     this.remove(duplicates);
+    
   }
 });

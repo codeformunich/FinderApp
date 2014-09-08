@@ -37,8 +37,8 @@ module.exports = {
     }
   },
 
-  processOverpassResults: function(result) {
-    app.mapNodes = new mapNodeCollection(result, {parse: true});
+  processOverpassResults: function(nodesArray) {
+    app.mapNodes = new mapNodeCollection(nodesArray);
     app.mapNodes.removeDuplicates();
     console.log(app.mapNodes);
 
