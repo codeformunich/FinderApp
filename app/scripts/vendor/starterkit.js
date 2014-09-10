@@ -23,13 +23,12 @@ function toggleMenu() {
 function initialize() {
   main.addEventListener('click', closeMenu);
   menuBtn.addEventListener('click', toggleMenu);
-  navdrawerContainer.addEventListener('click', function (event) {
+  navdrawerContainer.addEventListener('click', function(event) {
     if (event.target.nodeName === 'A' || event.target.nodeName === 'LI') {
       closeMenu();
     }
   });
 }
-
 
 module.exports = {
   initialize: initialize

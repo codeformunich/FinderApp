@@ -40,10 +40,12 @@ function initializeMap() {
 
   L.tileLayer('http://tiles.lyrk.org/' + tp + '/{z}/{x}/{y}?apikey=' + apikey,
    {
-     attribution: 'Map data &copy; <a href="http://openstreetmap.org">' +
-      'OpenStreetMap</a> contributors, <a href="http://creativecommons.org/' +
-      'licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery ©' +
-      '<a href="http://mapbox.com">Mapbox</a>',
+     attribution: '<a href="http://leafletjs.com" title="A JS library for ' +
+                  'interactive maps">Leaflet</a> | Data: ' +
+                  '<a href="http://www.overpass-api.de/">OverpassAPI</a>/ODbL' +
+                  ' OpenStreetMap | <a href="http://geodienste.lyrk.de/" ' +
+                  'target="_blank">Tiles by Lyrk</a> | <a href="http://' +
+                  'geodienste.lyrk.de/copyright">Lizenzinformationen</a></div>',
      maxZoom: 18
    }).addTo(map);
 }
