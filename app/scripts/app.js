@@ -2,8 +2,8 @@
 'use strict';
 var $ = require('jquery');
 var leaf = require('./leaf');
-var mapNodeCollection = require('./backbone/map-node-collection');
-var ListView = require('./backbone/list-view');
+var mapNodeCollection = require('./ampersand/map-node-collection');
+var ListView = require('./ampersand/list-view');
 var overpass = require('./overpass');
 var starterkit = require('./vendor/starterkit');
 

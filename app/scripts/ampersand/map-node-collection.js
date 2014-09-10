@@ -32,6 +32,5 @@ module.exports = AmpersandCollection.extend({
     }, this);
 
     this.remove(duplicates);
-    
   }
 });
