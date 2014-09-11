@@ -5,7 +5,7 @@ var MapNodeCollection = require('./ampersand/map-node-collection');
 var UserState = require('./ampersand/user-state');
 var ListView = require('./ampersand/list-view');
 var MapView = require('./ampersand/map-view');
-var overpass = require('./overpass');
+var nominatim = require('./nominatim');
 var starterkit = require('./vendor/starterkit');
 
 starterkit.initialize();
@@ -27,11 +27,10 @@ module.exports = {
   },
 
   processPosition: function(position) {
-    overpass.performRequest({lat: position.coords.latitude,
+    nominatim.performRequest({lat: position.coords.latitude,
                             lon: position.coords.longitude},
-                            '["leisure"="playground"]',
+                            '[spielplatz]',
                             app.processOverpassResults);
-
   },
 
   processOverpassResults: function(nodesArray) {

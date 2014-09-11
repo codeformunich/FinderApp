@@ -7,14 +7,29 @@ module.exports = AmpersandModel.extend({
 
   initialize: function() {
     this.distance = this.computeDistance();
+    console.log(this.address);
+    if (!this.address.road) {
+      if (this.address.path) {
+        this.address.road = this.address.path;
+      } else if (this.address.street) {
+        this.address.road = this.address.street;
+      } else if (this.address.footway) {
+        this.address.road = this.address.footway;
+      } else if (this.address.address27) {
+        this.address.road = this.address.address27;
+      } else {
+        this.address.road = this.address.hamlet;
+      }
+    }
   },
 
   props: {
-    id: 'number',
+    osm_id: 'number',
     lat: 'number',
     lon: 'number',
     tags: 'object',
-    type: 'string',
+    address: 'object',
+    osm_type: 'string',
     distance: 'number',
   },
 

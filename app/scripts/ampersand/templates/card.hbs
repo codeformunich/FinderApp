@@ -1,4 +1,12 @@
-<section class="card textcard">
-  <h1><strong>Ein Spielplatz</strong></h1>
-  <h2>Entfernung: <span data-hook="distance"></span>m</h2>
-</section>
+<div class="featured-list__item clear">
+  <div class="container-small">
+    <h3><strong>
+      {{#if model.address.playground}}
+        {{model.address.playground}}
+      {{else}}
+        {{model.address.road}}
+      {{/if}}
+    </strong></h3>
+    <div>Entfernung: <span data-hook="distance"></span>m <a href="http://maps.google.de/maps?q={{model.lat}},{{model.lon}}(Spielplatz)">Google Maps Link</a></div>
+  </div>
+</div>

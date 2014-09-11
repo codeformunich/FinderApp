@@ -159,22 +159,31 @@ ol.list-links {
 /*==========  FEATURED LIST  ==========*/
 
 .featured-list {
-  padding-top: $lineHeight * 3;
-  padding-bottom: $lineHeight * 3;
+  padding-top: 0;
+  z-index: 0;
+
+  padding-bottom: $lineHeight / 2;
 }
 
 .featured-list__item {
   background: #ffffff;
+  z-index: 0;
   padding-left: 0;
   padding-top: $lineHeight;
   padding-bottom: $lineHeight;
+  box-shadow: 0 1px 2px #aaa;
+
 
   @include medium {
     min-height: $lineHeight * 13;
     padding: $lineHeight * 2 32px;
   }
 
-  margin-top: $lineHeight;
+  h3 {
+    padding-top: 0;
+  }
+
+  margin-top: $lineHeight / 2;
 
   &:first-child {
     margin-top: 0;
@@ -182,6 +191,15 @@ ol.list-links {
 
   p {
     margin-bottom: $lineHeight;
+  }
+}
+
+.featured-list__map{
+  @extend .featured-list__item;
+  padding: 0;
+
+  >div {
+    height: 160px;
   }
 }
 

@@ -7,17 +7,19 @@ var $ = require('jquery');
 var locationMath = require('location-math');
 var _ = require('underscore');
 
+var nominatimUrl ='http://nominatim.openstreetmap.org/search?viewbox=';
+
 var overpassUrl = 'http://overpass-api.de/api/interpreter?' +
                   'data=[out:json][timeout:25];(';
-var overpassOutputParams = ');out body;>;out skel qt;';
+var nominatimOutputParams = '&bounded=1&format=json&polygon=0&addressdetails=1';
 var callback;
 
 function createBoundingBoxStr(position) {
   console.log(locationMath.getBoundingBox(position, 1000));
   var boundingBox = locationMath.getBoundingBox(position, 1000);
 
-  return '(' + boundingBox.latMin + ',' + boundingBox.lonMin + ',' +
-                boundingBox.latMax + ',' + boundingBox.lonMax + ')';
+  return boundingBox.lonMin + ',' + boundingBox.latMin + ',' +
+                boundingBox.lonMax + ',' + boundingBox.latMax;
 }
 
 /**
@@ -27,26 +29,25 @@ function performRequest(currentPosition, query, cb) {
   callback = cb;
 
   var boundingBoxStr = createBoundingBoxStr(currentPosition);
-
-  $.getJSON(overpassUrl + 'node' + query + boundingBoxStr + ';' + 'way' +
-            query + boundingBoxStr + ';' + overpassOutputParams,
+  var urlStr = nominatimUrl + boundingBoxStr + nominatimOutputParams +
+            '&q=' + query;
+  console.log(urlStr);
+  $.getJSON(urlStr,
     function(data) {
-      console.log(data);
-      parse(data);
+      data = parse(data);
+      callback(parse(data));
+      //parse(data);
     });
 }
 
 function parse(data) {
-  var nodeArray = data.elements;
-
-  for (var i = 0; i < nodeArray.length; i++) {
-
-    if (nodeArray[i].type === 'way' && nodeArray[i].nodes) {
-      nodeArray[i] = processWay(nodeArray[i], nodeArray);
-    }
+  for (var i = 0; i < data.length; i++) {
+    data[i].osm_id = parseFloat(data[i].osm_id);
+    data[i].lat = parseFloat(data[i].lat);
+    data[i].lon = parseFloat(data[i].lon);
   }
 
-  callback(nodeArray);
+  return data;
 }
 
 function processWay(way, nodeArray) {
