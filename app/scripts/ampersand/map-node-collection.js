@@ -7,7 +7,12 @@ var AmpersandCollection = require('ampersand-collection');
 module.exports = AmpersandCollection.extend({
   model: MapNodeModel,
 
+  initialize: function() {
+    this.listenTo(app.user, 'change position', this.sort);
+  },
+
   comparator: function(node) {
+    node.distance = node.computeDistance();
     return node.distance;
   },
 

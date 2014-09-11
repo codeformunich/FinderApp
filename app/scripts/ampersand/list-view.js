@@ -8,7 +8,6 @@ module.exports = AmpersandView.extend({
   template: template,
 
   render: function() {
-    console.log('test');
     this.renderWithTemplate();
     this.renderCollection(this.collection, CardView, this.el);
 
