@@ -49,6 +49,7 @@
     "ampersand-model": "^4.0.2",
     "ampersand-state": "^4.3.10",
     "ampersand-view": "^7.1.1",
+    "gulp-ruby-sass": "^0.7.1",
     "jquery": "^2.1.1",
     "leaflet": "^0.7.3",
     "location-math": "^0.1.0",

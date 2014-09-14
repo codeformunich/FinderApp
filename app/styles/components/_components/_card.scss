@@ -1,0 +1,40 @@
+.card-list {
+  padding-top: $lineHeight / 2;
+  padding-bottom: $lineHeight / 2;
+}
+
+.card {
+  background: #ffffff;
+  z-index: 0;
+  padding-left: 0;
+  box-shadow: 0 1px 2px #aaa;
+  margin-top: $lineHeight / 2;
+}
+
+.list-card {
+  @extend .card;
+  padding-top: $lineHeight;
+  padding-bottom: $lineHeight;
+
+  h3 {
+    padding-top: 0;
+  }
+
+
+  &:first-child {
+    margin-top: 0;
+  }
+
+  p {
+    margin-bottom: $lineHeight;
+  }
+}
+
+.map-card {
+  @extend .card;
+  padding: 0;
+
+  >div {
+    height: 160px;
+  }
+}

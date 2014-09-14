@@ -116,7 +116,7 @@ gulp.task('styles', function() {
     'app/styles/components/components.scss'
   ])
     .pipe($.changed('styles', {extension: '.scss'}))
-    .pipe($.sass()
+    .pipe($.rubySass()
       .on('error', console.error.bind(console))
     )
     .pipe($.autoprefixer(AUTOPREFIXER_BROWSERS))
@@ -146,7 +146,8 @@ gulp.task('html', function() {
       // CSS Selectors for UnCSS to ignore
       ignore: [
         /.navdrawer-container.open/,
-        /.app-bar.open/
+        /.app-bar.open/,
+        /.map-card/
       ]
     })))
     // Concatenate And Minify Styles
@@ -181,7 +182,8 @@ gulp.task('serve', ['styles'], function() {
 
   gulp.watch(['app/**/*.html'], reload);
   gulp.watch(['app/styles/**/*.{scss,css}'], ['styles', reload]);
-  gulp.watch(['app/scripts/**/*.js', 'app/scripts/**/*.hbs'], ['browserify', 'jshint']);
+  gulp.watch(['app/scripts/**/*.js', 'app/scripts/**/*.hbs'],
+            ['browserify', 'jshint']);
   gulp.watch(['app/images/**/*'], reload);
 });
 
