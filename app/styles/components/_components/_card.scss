@@ -1,6 +1,28 @@
 .card-list {
   padding-top: $lineHeight / 2;
   padding-bottom: $lineHeight / 2;
+
+  &.card-list--full {
+    position: absolute;
+    top: 65px;
+    left: 0;
+    height: 130px;
+    width: 100%;
+    white-space: nowrap;
+    overflow-x: scroll;
+    overflow-y: hidden;
+
+    >li {
+      display: inline-block;
+      width: 80%;
+      margin: 0 5% 0 0;
+
+
+      &:first-child {
+        margin-left: 10%;
+      }
+    }
+  }
 }
 
 .card {
@@ -36,5 +58,18 @@
 
   >div {
     height: 160px;
+  }
+
+  &.map-card--full {
+    position: absolute;
+    top: 60px;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    margin-top: 0;
+
+    >div {
+      height: 100%;
+    }
   }
 }

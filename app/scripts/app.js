@@ -5,6 +5,7 @@ var MapNodeCollection = require('./ampersand/map-node-collection');
 var UserState = require('./ampersand/user-state');
 var ListView = require('./ampersand/list-view');
 var MapView = require('./ampersand/map-view');
+var Router = require('./ampersand/router');
 var nominatim = require('./nominatim');
 var starterkit = require('./vendor/starterkit');
 
@@ -14,33 +15,37 @@ module.exports = {
 
   blastoff: function() {
     window.app = this;
-    this.user = new UserState();
+    app.user = new UserState();
 
     app.mapNodes = new MapNodeCollection();
 
-    var mapView = new MapView({collection: app.mapNodes});
-    $('main').append(mapView.el);
-    mapView.renderMap();
+    app.mapView = new MapView({collection: app.mapNodes});
+    $('main').append(app.mapView.el);
+    app.mapView.renderMap();
 
     this.user.locate(this.processPosition);
     console.log('Blastoff!');
+
+    app.router = new Router();
+      // We have what we need, we can now start our router and show the appropriate page
+    app.router.history.start({pushState: true, root: '/'});
   },
 
   processPosition: function(position) {
     nominatim.performRequest({lat: position.coords.latitude,
                             lon: position.coords.longitude},
                             '[spielplatz]',
-                            app.processOverpassResults);
+                            app.processNominatimResults);
   },
 
-  processOverpassResults: function(nodesArray) {
+  processNominatimResults: function(nodesArray) {
     app.mapNodes.add(nodesArray);
     app.mapNodes.removeDuplicates();
     app.mapNodes.trigger('sync');
 
-    var listView = new ListView({collection: app.mapNodes});
-    listView.render();
-    $('main').append(listView.el);
+    app.listView = new ListView({collection: app.mapNodes});
+    app.listView.render();
+    $('main').append(app.listView.el);
   }
 };
 

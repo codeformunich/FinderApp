@@ -80,5 +80,10 @@ module.exports = AmpersandView.extend({
 
     this.positionMarker = new L.Circle(position.latlng, radius);
     this.map.addLayer(this.positionMarker);
+  },
+
+  showFullScreen: function() {
+    this.el.classList.add('map-card--full');
+    this.map.invalidateSize(true);
   }
 });

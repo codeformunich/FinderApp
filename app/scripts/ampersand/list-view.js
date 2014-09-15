@@ -12,5 +12,9 @@ module.exports = AmpersandView.extend({
     this.renderCollection(this.collection, CardView, this.el);
 
     return this;
+  },
+
+  showFullScreen: function() {
+    this.el.classList.add('card-list--full');
   }
 });

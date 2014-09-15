@@ -16,7 +16,7 @@
 html,
 body {
   width: 100%;
-  height: 30px;
+  height: 100%;
   margin: 0;
   padding: 0;
 }
@@ -219,6 +219,7 @@ body.open {
 }
 
 main {
+  position: relative;
   margin: 0 auto;
   /* Height of the header */
   padding: 60px 16px 16px 16px;
