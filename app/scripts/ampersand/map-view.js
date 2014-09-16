@@ -49,8 +49,7 @@ module.exports = AmpersandView.extend({
 
     L.tileLayer('http://tiles.lyrk.org/' + tp + '/{z}/{x}/{y}?apikey=' + apikey,
      {
-       attribution: '<a href="http://leafletjs.com" title="A JS library for ' +
-                    'interactive maps">Leaflet</a> | Data: ' +
+       attribution: '| Data: ' +
                     '<a href="http://www.overpass-api.de/">OverpassAPI</a>' +
                     ' OpenStreetMap | <a href="http://geodienste.lyrk.de/" ' +
                     'target="_blank">Tiles by Lyrk</a> | <a href="http://' +
@@ -74,20 +73,21 @@ module.exports = AmpersandView.extend({
     this.collection.each(function(mapNode, index) {
       if (app.user.targetId) {
         if (mapNode.osmId === app.user.targetId) {
-          this.addMarker(mapNode.toCoords());
+          this.addMarker(mapNode);
         } else {
-          this.addMarker(mapNode.toCoords(), {deactivated: true});
+          this.addMarker(mapNode, {deactivated: true});
         }
       } else {
-        this.addMarker(mapNode.toCoords());
+        this.addMarker(mapNode);
       }
 
     }, this);
   },
 
-  addMarker: function(coords, markerOptions)  {
+  addMarker: function(mapNode, markerOptions)  {
     var options = markerOptions || {};
     var marker;
+    var coords = mapNode.toCoords();
 
     if (options.deactivated === true) {
       marker = L.marker([coords.lat, coords.lon], {icon: this.deactivatedIcon});
@@ -96,6 +96,10 @@ module.exports = AmpersandView.extend({
     }
 
     marker.addTo(this.markers);
+
+    marker.on('click', function() {
+      app.user.targetId = mapNode.osmId;
+    });
 
     if (options.popupText) {
       marker.bindPopup(options.popupText);
