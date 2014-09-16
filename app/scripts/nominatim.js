@@ -5,8 +5,14 @@
 
 var $ = require('jquery');
 var locationMath = require('location-math');
-var nominatimUrl = 'http://nominatim.openstreetmap.org/search?viewbox=';
-var nominatimOutputParams = '&bounded=1&format=json&polygon=0&addressdetails=1';
+var nominatimUrl = 'http://nominatim.openstreetmap.org/search?';
+var nominatimParams = {
+  bounded: 1,
+  format: 'json',
+  polygon: 0,
+  limit: 15,
+  addressdetails: 1
+};
 var callback;
 
 function createBoundingBoxStr(position) {
@@ -23,9 +29,9 @@ function createBoundingBoxStr(position) {
 function performRequest(currentPosition, query, cb) {
   callback = cb;
 
-  var boundingBoxStr = createBoundingBoxStr(currentPosition);
-  var urlStr = nominatimUrl + boundingBoxStr + nominatimOutputParams +
-            '&q=' + query;
+  nominatimParams.q = query;
+  nominatimParams.viewbox = createBoundingBoxStr(currentPosition);
+  var urlStr = nominatimUrl + decodeURIComponent($.param(nominatimParams));
   console.log(urlStr);
   $.getJSON(urlStr,
     function(data) {
