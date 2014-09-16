@@ -13,6 +13,7 @@ module.exports = AmpersandView.extend({
 
   initialize: function() {
     this.listenTo(this.collection, 'sync', this.addMarkers);
+    this.listenTo(app.user, 'change position', this.setUserPosition);
   },
 
   render: function() {
@@ -43,7 +44,7 @@ module.exports = AmpersandView.extend({
      }).addTo(this.map);
 
     this.map.on('locationfound', this.setUserPosition, this);
-    this.map.locate({setView: true, maxZoom: 16, watch: true});
+    this.map.locate({setView: true, maxZoom: 16});
   },
 
   addMarkers: function(e) {
@@ -71,15 +72,22 @@ module.exports = AmpersandView.extend({
     }
   },
 
-  setUserPosition: function(position) {
-    var radius = position.accuracy / 2;
+  setUserPosition: function() {
+    if (app.user.position) {
+      var coords = app.user.position.coords;
 
-    if (this.positionMarker) {
-      this.map.removeLayer(this.positionMarker);
+      // For now update accuracy but do not reset view
+      // this.map.setView([coords.latitude, coords.longitude]);
+
+      var rad = coords.accuracy / 2;
+
+      if (this.posMarker) {
+        this.map.removeLayer(this.posMarker);
+      }
+
+      this.posMarker = new L.Circle([coords.latitude, coords.longitude], rad);
+      this.map.addLayer(this.posMarker);
     }
-
-    this.positionMarker = new L.Circle(position.latlng, radius);
-    this.map.addLayer(this.positionMarker);
   },
 
   showFullScreen: function() {

@@ -4,7 +4,7 @@ var AmpersandState = require('ampersand-state');
 
 module.exports = AmpersandState.extend({
 
-  props: {
+  session: {
     position: 'object',
     watcherId: 'number'
   },

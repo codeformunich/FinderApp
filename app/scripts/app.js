@@ -18,6 +18,8 @@ module.exports = {
     app.user = new UserState();
     app.mapNodes = new MapNodeCollection();
 
+    this.user.locate(this.processPosition);
+
     //instantiate the neccessary views
     app.mapView = new MapView({collection: app.mapNodes});
     $('main').append(app.mapView.el);
@@ -25,7 +27,6 @@ module.exports = {
     app.listView = new ListView({collection: app.mapNodes});
     app.listView.render();
 
-    this.user.locate(this.processPosition);
     console.log('Blastoff!');
 
     app.router = new Router();
