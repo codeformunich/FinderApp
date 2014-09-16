@@ -24,12 +24,12 @@ module.exports = AmpersandModel.extend({
   },
 
   props: {
-    osm_id: 'number',
+    osmId: 'number',
     lat: 'number',
     lon: 'number',
     tags: 'object',
     address: 'object',
-    osm_type: 'string',
+    osmType: 'string',
     distance: 'number',
   },
 

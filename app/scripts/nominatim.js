@@ -5,12 +5,7 @@
 
 var $ = require('jquery');
 var locationMath = require('location-math');
-var _ = require('underscore');
-
-var nominatimUrl ='http://nominatim.openstreetmap.org/search?viewbox=';
-
-var overpassUrl = 'http://overpass-api.de/api/interpreter?' +
-                  'data=[out:json][timeout:25];(';
+var nominatimUrl = 'http://nominatim.openstreetmap.org/search?viewbox=';
 var nominatimOutputParams = '&bounded=1&format=json&polygon=0&addressdetails=1';
 var callback;
 
@@ -42,7 +37,8 @@ function performRequest(currentPosition, query, cb) {
 
 function parse(data) {
   for (var i = 0; i < data.length; i++) {
-    data[i].osm_id = parseFloat(data[i].osm_id);
+    data[i].osmId = parseFloat(data[i].osm_id);
+    data[i].osmType = data[i].osm_type;
     data[i].lat = parseFloat(data[i].lat);
     data[i].lon = parseFloat(data[i].lon);
   }
@@ -50,20 +46,5 @@ function parse(data) {
   return data;
 }
 
-function processWay(way, nodeArray) {
-  way.nodeCoords = [];
-
-  _.each(way.nodes, function(nodeId) {
-    var wayNode = _.findWhere(nodeArray, {id: nodeId});
-
-    if (wayNode) {
-      way.nodeCoords.push(wayNode);
-      var wayNodeIndex = nodeArray.indexOf(wayNode);
-      nodeArray.splice(wayNodeIndex, 1);
-    }
-  });
-
-  return _.extend(way, locationMath.getCentroid(way.nodeCoords));
-}
 
 exports.performRequest = performRequest;
