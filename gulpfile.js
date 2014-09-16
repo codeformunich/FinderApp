@@ -58,7 +58,7 @@ gulp.task('browserify', function() {
       //Pass desired output filename to vinyl-source-stream
       .pipe(source('bundle.js'))
       // Start piping stream to tasks!
-      .pipe(gulp.dest('app/build/'))
+      .pipe(gulp.dest('.tmp/scripts/'))
       .pipe(reload({stream: true, once: true}));
 });
 
@@ -168,7 +168,7 @@ gulp.task('html', function() {
 gulp.task('clean', del.bind(null, ['.tmp', 'dist']));
 
 // Watch Files For Changes & Reload
-gulp.task('serve', ['styles'], function() {
+gulp.task('serve', ['styles', 'browserify'], function() {
   browserSync({
     notify: false,
     // Run as an https by uncommenting 'https: true'
