@@ -16,19 +16,20 @@ module.exports = {
   blastoff: function() {
     window.app = this;
     app.user = new UserState();
-
     app.mapNodes = new MapNodeCollection();
 
+    //instantiate the neccessary views
     app.mapView = new MapView({collection: app.mapNodes});
     $('main').append(app.mapView.el);
     app.mapView.renderMap();
+    app.listView = new ListView({collection: app.mapNodes});
+    app.listView.render();
 
     this.user.locate(this.processPosition);
     console.log('Blastoff!');
 
     app.router = new Router();
-      // We have what we need, we can now start our router and show the appropriate page
-    app.router.history.start({pushState: true, root: '/'});
+    app.router.history.start({pushState: false, root: '/'});
   },
 
   processPosition: function(position) {
@@ -42,9 +43,6 @@ module.exports = {
     app.mapNodes.add(nodesArray);
     app.mapNodes.removeDuplicates();
     app.mapNodes.trigger('sync');
-
-    app.listView = new ListView({collection: app.mapNodes});
-    app.listView.render();
     $('main').append(app.listView.el);
   }
 };

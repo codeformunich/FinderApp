@@ -9,8 +9,6 @@ module.exports = AmpersandRouter.extend({
   },
 
   details: function() {
-    console.log('details');
-
     app.mapView.showFullScreen();
     app.listView.showFullScreen();
   }
