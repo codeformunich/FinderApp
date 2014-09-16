@@ -14,6 +14,11 @@ module.exports = AmpersandView.extend({
   initialize: function() {
     this.listenTo(this.collection, 'sync', this.addMarkers);
     this.listenTo(app.user, 'change position', this.setUserPosition);
+    this.listenTo(app.user, 'change targetId', function() {
+      if (app.user.targetId) {
+        this.showTarget();
+      }
+    });
   },
 
   render: function() {
@@ -91,8 +96,25 @@ module.exports = AmpersandView.extend({
     }
   },
 
-  showFullScreen: function() {
+  showTarget: function() {
+    var paddingTop = 155;
+    var paddingBottom = 10;
+
     this.el.classList.add('map-card--full');
     this.map.invalidateSize(true);
+
+    //centerOnTargetNode
+    var node = this.collection.filter(function(node) {
+      return node.osmId === app.user.targetId;
+    })[0];
+
+    var mapBounds = new L.LatLngBounds([[node.lat, node.lon],
+      [app.user.position.coords.latitude, app.user.position.coords.longitude]]);
+
+    this.map.fitBounds(mapBounds, {
+      animate: true,
+      paddingTopLeft: [0, paddingTop],
+      paddingBottomRight: [0, paddingBottom],
+    });
   }
 });

@@ -6,6 +6,7 @@ module.exports = AmpersandState.extend({
 
   session: {
     position: 'object',
+    targetId: 'number',
     watcherId: 'number'
   },
 

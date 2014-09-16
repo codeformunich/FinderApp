@@ -19,6 +19,7 @@ module.exports = AmpersandView.extend({
   },
 
   showDetails: function() {
-    app.router.navigate('details', {trigger: true});
+    app.user.targetId = this.model.osmId;
+    console.log(app.user.targetId);
   }
 });
