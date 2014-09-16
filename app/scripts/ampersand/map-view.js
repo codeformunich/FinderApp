@@ -21,7 +21,8 @@ module.exports = AmpersandView.extend({
   },
 
   renderMap: function() {
-    this.map = L.map(this.queryByHook('map'));
+    this.map = L.map(this.queryByHook('map'), {zoomControl: false});
+    new L.Control.Zoom({position: 'bottomright'}).addTo(this.map);
     var tp;
 
     if (L.Browser.retina) {
