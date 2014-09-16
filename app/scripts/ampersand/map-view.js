@@ -6,6 +6,13 @@ var AmpersandView = require('ampersand-view');
 var template = require('./templates/map');
 
 var apikey = 'a5fdf236c7fb42d794a43e94be030fb2';
+var DeactivatedIcon = L.Icon.Default.extend({
+  options: {
+    iconUrl: '/images/leaflet/marker-icon_deact.png',
+    iconRetinaUrl: '/images/leaflet/marker-icon-2x_deact.png'
+  }
+});
+
 
 module.exports = AmpersandView.extend({
   autoRender: true,
@@ -16,9 +23,12 @@ module.exports = AmpersandView.extend({
     this.listenTo(app.user, 'change position', this.setUserPosition);
     this.listenTo(app.user, 'change targetId', function() {
       if (app.user.targetId) {
+        this.addMarkers();
         this.showTarget();
       }
     });
+
+    this.deactivatedIcon = new DeactivatedIcon();
   },
 
   render: function() {
@@ -54,8 +64,24 @@ module.exports = AmpersandView.extend({
   },
 
   addMarkers: function(e) {
+    if (this.markers) {
+      this.map.removeLayer(this.markers);
+    }
+
+    this.markers = new L.FeatureGroup();
+    this.map.addLayer(this.markers);
+
     this.collection.each(function(mapNode, index) {
-      this.addMarker(mapNode.toCoords());
+      if (app.user.targetId) {
+        if (mapNode.osmId === app.user.targetId) {
+          this.addMarker(mapNode.toCoords());
+        } else {
+          this.addMarker(mapNode.toCoords(), {deactivated: true});
+        }
+      } else {
+        this.addMarker(mapNode.toCoords());
+      }
+
     }, this);
   },
 
@@ -63,13 +89,13 @@ module.exports = AmpersandView.extend({
     var options = markerOptions || {};
     var marker;
 
-    if (options.circle === true) {
-      marker = L.circleMarker([coords.lat, coords.lon]);
+    if (options.deactivated === true) {
+      marker = L.marker([coords.lat, coords.lon], {icon: this.deactivatedIcon});
     } else {
       marker = L.marker([coords.lat, coords.lon]);
     }
 
-    marker.addTo(this.map);
+    marker.addTo(this.markers);
 
     if (options.popupText) {
       marker.bindPopup(options.popupText);
