@@ -55,9 +55,7 @@ module.exports = AmpersandView.extend({
 
   addMarkers: function(e) {
     this.collection.each(function(mapNode, index) {
-      this.addMarker(mapNode.toCoords(), {
-        popupText: 'Spielplatz #' + (index + 1),
-      });
+      this.addMarker(mapNode.toCoords());
     }, this);
   },
 
