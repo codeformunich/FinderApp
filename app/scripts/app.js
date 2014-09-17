@@ -31,8 +31,7 @@ module.exports = {
     controller.initialize();
 
     app.router = new Router();
-    app.router.history.start({pushState: false, root: '/'});
-
+    app.router.history.start({pushState: false});
     console.log('Blastoff!');
   },
 

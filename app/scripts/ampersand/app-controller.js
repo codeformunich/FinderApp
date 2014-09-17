@@ -15,12 +15,15 @@ module.exports = {
   },
 
   showList: function() {
-    app.router.navigate('/')
+    app.mapView.triggerDetails(false);
+    app.listView.triggerDetails(false);
+
+    app.router.navigate('/');
   },
 
   showDetails: function() {
-    app.mapView.showDetails();
-    app.listView.showDetails();
+    app.mapView.triggerDetails(true);
+    app.listView.triggerDetails(true);
     console.log(app.user);
     app.router.navigate('/details');
   }

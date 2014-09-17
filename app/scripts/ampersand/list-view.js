@@ -19,11 +19,11 @@ module.exports = AmpersandView.extend({
     return this;
   },
 
-  showDetails: function(targetNode) {
-    this.el.classList.add('card-list--full');
-
-    if (targetNode) {
-      this.showTargetNode(targetNode);
+  triggerDetails: function(showDetails) {
+    if (showDetails) {
+      this.el.classList.add('card-list--full');
+    } else {
+      this.el.classList.remove('card-list--full');
     }
   },
 

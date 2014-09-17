@@ -116,8 +116,13 @@ module.exports = AmpersandView.extend({
     }
   },
 
-  showDetails: function() {
-    this.el.classList.add('map-card--full');
+  triggerDetails: function(showDetails) {
+    if (showDetails) {
+      this.el.classList.add('map-card--full');
+    } else {
+      this.el.classList.remove('map-card--full');
+    }
+
     this.map.invalidateSize(true);
   },
 
