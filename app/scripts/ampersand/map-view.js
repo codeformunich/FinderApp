@@ -18,8 +18,8 @@ module.exports = AmpersandView.extend({
 
   initialize: function() {
     this.listenTo(this.collection, 'sync', this.addMarkers);
-    this.listenTo(app.user, 'change position', this.setUserPosition);
-
+    this.listenTo(this.collection, 'change:selectedNode', this.showSelected);
+    this.listenTo(app.user, 'change:position', this.setUserPosition);
     this.deactivatedIcon = new DeactivatedIcon();
   },
 
@@ -63,8 +63,8 @@ module.exports = AmpersandView.extend({
     this.map.addLayer(this.markers);
 
     this.collection.each(function(mapNode, index) {
-      if (app.user.targetId) {
-        if (mapNode.osmId === app.user.targetId) {
+      if (this.collection.selectedNode) {
+        if (mapNode === this.collection.selectedNode) {
           this.addMarker(mapNode);
         } else {
           this.addMarker(mapNode, {deactivated: true});
@@ -116,15 +116,19 @@ module.exports = AmpersandView.extend({
     }
   },
 
-  showTarget: function(targetNode) {
+  showDetails: function() {
+    this.el.classList.add('map-card--full');
+    this.map.invalidateSize(true);
+  },
+
+  showSelected: function() {
     var paddingTop = 155;
     var paddingBottom = 10;
 
-    this.el.classList.add('map-card--full');
-    this.map.invalidateSize(true);
     this.addMarkers();
+    var selectedNode = this.collection.selectedNode;
 
-    var mapBounds = new L.LatLngBounds([[targetNode.lat, targetNode.lon],
+    var mapBounds = new L.LatLngBounds([[selectedNode.lat, selectedNode.lon],
       [app.user.position.coords.latitude, app.user.position.coords.longitude]]);
 
     this.map.fitBounds(mapBounds, {

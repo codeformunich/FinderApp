@@ -8,6 +8,10 @@ var template = require('./templates/list.hbs');
 module.exports = AmpersandView.extend({
   template: template,
 
+  initialize: function() {
+    this.listenTo(this.collection, 'change:selectedNode', this.showSelected);
+  },
+
   render: function() {
     this.renderWithTemplate();
     this.renderCollection(this.collection, CardView, this.el);
@@ -15,11 +19,16 @@ module.exports = AmpersandView.extend({
     return this;
   },
 
-  showTarget: function(targetNode) {
+  showDetails: function(targetNode) {
     this.el.classList.add('card-list--full');
 
-    var index = this.collection.indexOf(targetNode);
+    if (targetNode) {
+      this.showTargetNode(targetNode);
+    }
+  },
 
+  showSelected: function() {
+    var index = this.collection.indexOf(this.collection.selectedNode);
     $(this.el).find('li').css('left', -85 * index + '%');
   }
 });

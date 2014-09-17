@@ -19,7 +19,8 @@ module.exports = AmpersandView.extend({
   },
 
   showDetails: function() {
-    app.user.targetId = this.model.osmId;
-    console.log(app.user.targetId);
+    app.user.showDetails = true;
+    this.model.collection.selectNode(this.model);
+    console.log(this.model.collection.selectedNode);
   }
 });

@@ -9,11 +9,21 @@ module.exports = AmpersandCollection.extend({
 
   initialize: function() {
     this.listenTo(app.user, 'change position', this.sort);
+    this.selectedNode = undefined;
   },
 
   comparator: function(node) {
     node.distance = node.computeDistance();
     return node.distance;
+  },
+
+  selectNode: function(node) {
+    if (node === undefined) {
+      return node;
+    } else {
+      this.selectedNode = node;
+      this.trigger('change:selectedNode', node);
+    }
   },
 
   removeDuplicates: function() {

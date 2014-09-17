@@ -6,8 +6,8 @@ module.exports = AmpersandState.extend({
 
   session: {
     position: 'object',
-    targetId: 'number',
-    watcherId: 'number'
+    watcherId: 'number',
+    showDetails: 'boolean'
   },
 
   locate: function(callback) {

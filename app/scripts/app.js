@@ -6,7 +6,7 @@ var UserState = require('./ampersand/user-state');
 var ListView = require('./ampersand/list-view');
 var MapView = require('./ampersand/map-view');
 var Router = require('./ampersand/router');
-var mediator = require('./ampersand/app-mediator');
+var controller = require('./ampersand/app-controller');
 var nominatim = require('./nominatim');
 var starterkit = require('./vendor/starterkit');
 
@@ -28,9 +28,10 @@ module.exports = {
     app.listView = new ListView({collection: app.mapNodes});
     app.listView.render();
 
+    controller.initialize();
+
     app.router = new Router();
     app.router.history.start({pushState: false, root: '/'});
-    mediator.initialize();
 
     console.log('Blastoff!');
   },
