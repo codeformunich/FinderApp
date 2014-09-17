@@ -4,7 +4,6 @@ var L = require('leaflet');
 L.Icon.Default.imagePath = '/images/leaflet';
 var AmpersandView = require('ampersand-view');
 var template = require('./templates/map');
-
 var apikey = 'a5fdf236c7fb42d794a43e94be030fb2';
 var DeactivatedIcon = L.Icon.Default.extend({
   options: {
@@ -13,7 +12,6 @@ var DeactivatedIcon = L.Icon.Default.extend({
   }
 });
 
-
 module.exports = AmpersandView.extend({
   autoRender: true,
   template: template,
@@ -21,12 +19,6 @@ module.exports = AmpersandView.extend({
   initialize: function() {
     this.listenTo(this.collection, 'sync', this.addMarkers);
     this.listenTo(app.user, 'change position', this.setUserPosition);
-    this.listenTo(app.user, 'change targetId', function() {
-      if (app.user.targetId) {
-        this.addMarkers();
-        this.showTarget();
-      }
-    });
 
     this.deactivatedIcon = new DeactivatedIcon();
   },
@@ -124,19 +116,15 @@ module.exports = AmpersandView.extend({
     }
   },
 
-  showTarget: function() {
+  showTarget: function(targetNode) {
     var paddingTop = 155;
     var paddingBottom = 10;
 
     this.el.classList.add('map-card--full');
     this.map.invalidateSize(true);
+    this.addMarkers();
 
-    //centerOnTargetNode
-    var node = this.collection.filter(function(node) {
-      return node.osmId === app.user.targetId;
-    })[0];
-
-    var mapBounds = new L.LatLngBounds([[node.lat, node.lon],
+    var mapBounds = new L.LatLngBounds([[targetNode.lat, targetNode.lon],
       [app.user.position.coords.latitude, app.user.position.coords.longitude]]);
 
     this.map.fitBounds(mapBounds, {

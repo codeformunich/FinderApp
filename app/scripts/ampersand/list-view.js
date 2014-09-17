@@ -8,14 +8,6 @@ var template = require('./templates/list.hbs');
 module.exports = AmpersandView.extend({
   template: template,
 
-  initialize: function() {
-    this.listenTo(app.user, 'change targetId', function() {
-      if (app.user.targetId) {
-        this.showFullScreen();
-      }
-    });
-  },
-
   render: function() {
     this.renderWithTemplate();
     this.renderCollection(this.collection, CardView, this.el);
@@ -23,13 +15,10 @@ module.exports = AmpersandView.extend({
     return this;
   },
 
-  showFullScreen: function() {
+  showTarget: function(targetNode) {
     this.el.classList.add('card-list--full');
 
-    var node = this.collection.filter(function(node) {
-      return node.osmId === app.user.targetId;
-    })[0];
-    var index = this.collection.indexOf(node);
+    var index = this.collection.indexOf(targetNode);
 
     $(this.el).find('li').css('left', -85 * index + '%');
   }
