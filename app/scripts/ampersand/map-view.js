@@ -1,6 +1,7 @@
 'use strict';
 
 var L = require('leaflet');
+var $ = require('jquery');
 L.Icon.Default.imagePath = '/images/leaflet';
 var AmpersandView = require('ampersand-view');
 var template = require('./templates/map');
@@ -25,9 +26,7 @@ module.exports = AmpersandView.extend({
 
   render: function() {
     this.renderWithTemplate();
-  },
 
-  renderMap: function() {
     this.map = L.map(this.queryByHook('map'), {zoomControl: false});
     new L.Control.Zoom({position: 'bottomright'}).addTo(this.map);
     var tp;
@@ -45,9 +44,9 @@ module.exports = AmpersandView.extend({
                     '<a href="http://www.overpass-api.de/">OverpassAPI</a>' +
                     ' OpenStreetMap | <a href="http://geodienste.lyrk.de/" ' +
                     'target="_blank">Tiles by Lyrk</a> | <a href="http://' +
-                    'geodienste.lyrk.de/copyright">Lizenzinformationen</a>' +
+                    'geodienste.lyrk.de/copyright">Lizenz</a>' +
                     '</div>',
-       maxZoom: 18
+       maxZoom: 16
      }).addTo(this.map);
 
     this.map.on('locationfound', this.setUserPosition, this);
@@ -101,10 +100,6 @@ module.exports = AmpersandView.extend({
   setUserPosition: function() {
     if (app.user.position) {
       var coords = app.user.position.coords;
-
-      // For now update accuracy but do not reset view
-      // this.map.setView([coords.latitude, coords.longitude]);
-
       var rad = coords.accuracy / 2;
 
       if (this.posMarker) {
@@ -119,8 +114,18 @@ module.exports = AmpersandView.extend({
   triggerDetails: function(showDetails) {
     if (showDetails) {
       this.el.classList.add('map-card--full');
+      this.map.dragging.enable();
+      this.map.touchZoom.enable();
+      this.map.doubleClickZoom.enable();
+      this.map.scrollWheelZoom.enable();
+      $('.leaflet-control-zoom').show();
     } else {
       this.el.classList.remove('map-card--full');
+      this.map.dragging.disable();
+      this.map.touchZoom.disable();
+      this.map.doubleClickZoom.disable();
+      this.map.scrollWheelZoom.disable();
+      $('.leaflet-control-zoom').hide();
     }
 
     this.map.invalidateSize(true);

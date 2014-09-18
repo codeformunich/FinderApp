@@ -24,7 +24,6 @@ module.exports = {
     //instantiate the neccessary views
     app.mapView = new MapView({collection: app.mapNodes});
     $('main').append(app.mapView.el);
-    app.mapView.renderMap();
     app.listView = new ListView({collection: app.mapNodes});
     app.listView.render();
 
