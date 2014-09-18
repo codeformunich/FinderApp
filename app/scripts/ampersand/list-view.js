@@ -24,6 +24,7 @@ module.exports = AmpersandView.extend({
       this.el.classList.add('card-list--full');
     } else {
       this.el.classList.remove('card-list--full');
+      $(this.el).find('li').css('left', 0);
     }
   },
 

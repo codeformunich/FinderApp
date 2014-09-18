@@ -19,7 +19,14 @@ module.exports = AmpersandView.extend({
 
   initialize: function() {
     this.listenTo(this.collection, 'sync', this.addMarkers);
-    this.listenTo(this.collection, 'change:selectedNode', this.showSelected);
+    this.listenTo(this.collection, 'change:selectedNode', function() {
+      if (this.collection.length) {
+        this.addMarkers();
+      }
+      if (this.collection.selectedNode) {
+        this.showSelected();
+      }
+    });
     this.listenTo(app.user, 'change:position', this.setUserPosition);
     this.deactivatedIcon = new DeactivatedIcon();
   },
@@ -73,6 +80,10 @@ module.exports = AmpersandView.extend({
       }
 
     }, this);
+
+    if (!this.collection.selectedNode) {
+      this.map.fitBounds(this.markers.getBounds());
+    }
   },
 
   addMarker: function(mapNode, markerOptions)  {
@@ -132,19 +143,17 @@ module.exports = AmpersandView.extend({
   },
 
   showSelected: function() {
-    var paddingTop = 155;
-    var paddingBottom = 10;
-
-    this.addMarkers();
     var selectedNode = this.collection.selectedNode;
 
     var mapBounds = new L.LatLngBounds([[selectedNode.lat, selectedNode.lon],
       [app.user.position.coords.latitude, app.user.position.coords.longitude]]);
 
+    console.log(this.map.getSize());
+
     this.map.fitBounds(mapBounds, {
       animate: true,
-      paddingTopLeft: [0, paddingTop],
-      paddingBottomRight: [0, paddingBottom],
+      paddingTopLeft: [10, 145],
+      paddingBottomRight: [10, 80]
     });
   }
 });

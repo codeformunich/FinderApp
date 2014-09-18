@@ -15,15 +15,17 @@ module.exports = {
   },
 
   showList: function() {
-    app.mapView.triggerDetails(false);
+
     app.listView.triggerDetails(false);
+    app.mapView.triggerDetails(false);
 
     app.router.navigate('/');
   },
 
   showDetails: function() {
-    app.mapView.triggerDetails(true);
+    //Always trigger list before map so that body has the correct size;
     app.listView.triggerDetails(true);
+    app.mapView.triggerDetails(true);
     console.log(app.user);
     app.router.navigate('/details');
   }

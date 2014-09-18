@@ -18,12 +18,8 @@ module.exports = AmpersandCollection.extend({
   },
 
   selectNode: function(node) {
-    if (node === undefined) {
-      return node;
-    } else {
-      this.selectedNode = node;
-      this.trigger('change:selectedNode', node);
-    }
+    this.selectedNode = node;
+    this.trigger('change:selectedNode', node);
   },
 
   removeDuplicates: function() {

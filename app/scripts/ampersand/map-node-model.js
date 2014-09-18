@@ -7,7 +7,6 @@ module.exports = AmpersandModel.extend({
 
   initialize: function() {
     this.distance = this.computeDistance();
-    console.log(this.address);
     if (!this.address.road) {
       if (this.address.path) {
         this.address.road = this.address.path;
