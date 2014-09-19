@@ -22,6 +22,22 @@ module.exports = AmpersandCollection.extend({
     this.trigger('change:selectedNode', node);
   },
 
+  selectNextNode: function() {
+    var index = this.indexOf(this.selectedNode) + 1;
+
+    if (index < this.length) {
+      this.selectNode(this.at(index));
+    }
+  },
+
+  selectPreviousNode: function() {
+    var index = this.indexOf(this.selectedNode) - 1;
+
+    if (index >= 0) {
+      this.selectNode(this.at(index));
+    }
+  },
+
   removeDuplicates: function() {
     //always only compare to the next model as they are ordered by distance
     var duplicates = [];

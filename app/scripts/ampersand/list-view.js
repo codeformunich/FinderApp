@@ -5,6 +5,10 @@ var AmpersandView = require('ampersand-view');
 var CardView = require('./card-view');
 var template = require('./templates/list.hbs');
 
+//Initialize touchswipe on jquery
+var $ = require('jquery');
+require('touchswipe')($);
+
 module.exports = AmpersandView.extend({
   template: template,
 
@@ -15,6 +19,16 @@ module.exports = AmpersandView.extend({
   render: function() {
     this.renderWithTemplate();
     this.renderCollection(this.collection, CardView, this.el);
+
+    $(this.el).swipe({
+      swipe:function(event, direction, distance, duration, fingerCount) {
+        if (direction === 'left') {
+          app.mapNodes.selectNextNode();
+        } else if (direction === 'right') {
+          app.mapNodes.selectPreviousNode();
+        }
+      },
+    });
 
     return this;
   },
