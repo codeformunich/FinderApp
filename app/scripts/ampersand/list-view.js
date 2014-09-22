@@ -35,9 +35,9 @@ module.exports = AmpersandView.extend({
 
   triggerDetails: function(showDetails) {
     if (showDetails) {
-      this.el.classList.add('card-list--full');
+      this.el.classList.add('cards--full');
     } else {
-      this.el.classList.remove('card-list--full');
+      this.el.classList.remove('cards--full');
       $(this.el).find('li').css('left', 0);
     }
   },
