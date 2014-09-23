@@ -59,6 +59,7 @@ gulp.task('browserify', function() {
       .pipe(source('bundle.js'))
       // Start piping stream to tasks!
       .pipe(gulp.dest('.tmp/scripts/'))
+      .pipe(gulp.dest('dist/scripts'))
       .pipe(reload({stream: true, once: true}));
 });
 
@@ -135,21 +136,6 @@ gulp.task('html', function() {
     .pipe(assets)
     // Concatenate And Minify JavaScript
     .pipe($.if('*.js', $.uglify({preserveComments: 'some'})))
-    // Remove Any Unused CSS
-    // Note: If not using the Style Guide, you can delete it from
-    // the next line to only include styles your project uses.
-    .pipe($.if('*.css', $.uncss({
-      html: [
-        'app/index.html',
-        'app/styleguide.html'
-      ],
-      // CSS Selectors for UnCSS to ignore
-      ignore: [
-        /.navdrawer-container.open/,
-        /.app-bar.open/,
-        /.map-card/
-      ]
-    })))
     // Concatenate And Minify Styles
     // In case you are still using useref build blocks
     .pipe($.if('*.css', $.csso()))
@@ -204,7 +190,7 @@ gulp.task('serve:dist', ['default'], function() {
 
 // Build Production Files, the Default Task
 gulp.task('default', ['clean'], function(cb) {
-  runSequence('styles', ['jshint', 'html', 'images', 'fonts', 'copy'], cb);
+  runSequence(['styles', 'browserify'], ['jshint', 'html', 'images', 'fonts', 'copy'], cb);
 });
 
 // Run PageSpeed Insights

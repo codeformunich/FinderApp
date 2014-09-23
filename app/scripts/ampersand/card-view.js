@@ -8,7 +8,7 @@ module.exports = AmpersandView.extend({
   template: template,
 
   events: {
-    'click' : 'showDetails'
+    // 'click' : 'showDetails'
   },
 
   bindings: {
