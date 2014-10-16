@@ -10,6 +10,10 @@ var controller = require('./ampersand/app-controller');
 var nominatim = require('./nominatim');
 var starterkit = require('./vendor/starterkit');
 
+//The query that gets used with nominatim, for a full list:
+// http://wiki.openstreetmap.org/wiki/Nominatim/Special_Phrases
+var nominatimQuery = 'spielplatz';
+
 starterkit.initialize();
 
 module.exports = {
@@ -37,7 +41,7 @@ module.exports = {
   processPosition: function(position) {
     nominatim.performRequest({lat: position.coords.latitude,
                             lon: position.coords.longitude},
-                            '[spielplatz]',
+                            '[' + nominatimQuery + ']',
                             app.processNominatimResults);
   },
 

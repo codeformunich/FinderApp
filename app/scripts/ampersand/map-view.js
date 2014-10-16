@@ -151,9 +151,10 @@ module.exports = AmpersandView.extend({
     console.log(this.map.getSize());
 
     this.map.fitBounds(mapBounds, {
-      animate: true,
+      animate: false,
       paddingTopLeft: [10, 145],
       paddingBottomRight: [10, 80]
     });
+    this.map.invalidateSize(true);
   }
 });

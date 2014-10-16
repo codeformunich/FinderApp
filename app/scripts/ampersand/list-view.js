@@ -36,10 +36,10 @@ module.exports = AmpersandView.extend({
 
   triggerDetails: function(showDetails) {
     if (showDetails) {
-      $(this.el).swipe('enable')
+      $(this.el).swipe('enable');
       this.el.classList.add('cards--full');
     } else {
-      $(this.el).swipe('disable')
+      $(this.el).swipe('disable');
       this.el.classList.remove('cards--full');
       $(this.el).find('li').css('left', 0);
     }
