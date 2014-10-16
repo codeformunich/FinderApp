@@ -20,17 +20,21 @@ module.exports = AmpersandView.extend({
     this.renderWithTemplate();
     this.renderCollection(this.collection, CardView, this.el);
 
-    $(this.el).swipe({
-      swipe:function(event, direction, distance, duration, fingerCount) {
-        if (direction === 'left') {
-          app.mapNodes.selectNextNode();
-        } else if (direction === 'right') {
-          app.mapNodes.selectPreviousNode();
-        }
-      },
-    });
+    if (!window.matchMedia('(min-width:860px)').matches) {
+      console.log('test');
+      $(this.el).swipe({
+        swipe:function(event, direction, distance, duration, fingerCount) {
+          if (direction === 'left') {
+            app.mapNodes.selectNextNode();
+          } else if (direction === 'right') {
+            app.mapNodes.selectPreviousNode();
+          }
+        },
+      });
 
-    this.triggerDetails(false);
+      this.triggerDetails(false);
+    }
+
     return this;
   },
 
@@ -46,7 +50,9 @@ module.exports = AmpersandView.extend({
   },
 
   showSelected: function() {
-    var index = this.collection.indexOf(this.collection.selectedNode);
-    $(this.el).find('li').css('left', -85 * index + '%');
+    if (!window.matchMedia('(min-width:860px)').matches) {
+      var index = this.collection.indexOf(this.collection.selectedNode);
+      $(this.el).find('li').css('left', -85 * index + '%');
+    }
   }
 });

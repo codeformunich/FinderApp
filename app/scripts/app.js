@@ -8,13 +8,13 @@ var MapView = require('./ampersand/map-view');
 var Router = require('./ampersand/router');
 var controller = require('./ampersand/app-controller');
 var nominatim = require('./nominatim');
-var starterkit = require('./vendor/starterkit');
+var menu = require('./vendor/menu');
 
 //The query that gets used with nominatim, for a full list:
 // http://wiki.openstreetmap.org/wiki/Nominatim/Special_Phrases
 var nominatimQuery = 'spielplatz';
 
-starterkit.initialize();
+menu.initialize();
 
 module.exports = {
 

@@ -22,6 +22,17 @@
       }
     }
   }
+
+
+  @include media($large-screen) {
+    position: absolute;
+    top: 0;
+    right: 0;
+    height: 100%;
+    width: 260px;
+    padding: 15px 10px 0 0;
+    overflow: scroll;
+  }
 }
 
 .card {
@@ -44,10 +55,6 @@
   position: relative;
   display: block;
 
-  @include media($large-screen) {
-    @include span-columns(4);
-    @include omega(3n);
-  }
 
   .card-image {
     overflow: hidden;
@@ -124,6 +131,19 @@
   }
 
   &.map-card--full {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    margin: 0;
+
+    >div {
+      height: 100%;
+    }
+  }
+
+  @include media($large-screen) {
     position: absolute;
     top: 0;
     left: 0;

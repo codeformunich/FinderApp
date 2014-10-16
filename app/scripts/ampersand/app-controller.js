@@ -24,8 +24,12 @@ module.exports = {
 
   showDetails: function() {
     //Always trigger list before map so that body has the correct size;
-    app.listView.triggerDetails(true);
-    app.mapView.triggerDetails(true);
+
+    if (!window.matchMedia('(min-width:860px)').matches) {
+      app.listView.triggerDetails(true);
+      app.mapView.triggerDetails(true);
+    }
+
     console.log(app.user);
     app.router.navigate('/details');
   }
