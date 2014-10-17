@@ -21,14 +21,15 @@ body {
 
 
 main {
-  margin-top: $navigation-height;
+  position: absolute;
+  top: $navigation-height;
+  bottom: 0;
+  width: 100%;
+  overflow: scroll;
+  -webkit-overflow-scrolling: touch;
   padding: 0.5em;
 
   @media screen and (min-width: $large-screen) {
-    position: absolute;
-    top: $navigation-height;
-    bottom: 0;
-    width: 100%;
-    margin-top: 0;
+    overflow: hidden;
   }
 }

@@ -24,7 +24,7 @@ module.exports = AmpersandView.extend({
         this.addMarkers();
       }
       if (this.collection.selectedNode) {
-        this.showSelected();
+        L.Util.requestAnimFrame(this.showSelected, this, false, this.map._container);
       }
     });
     this.listenTo(app.user, 'change:position', this.setUserPosition);
@@ -139,7 +139,8 @@ module.exports = AmpersandView.extend({
       $('.leaflet-control-zoom').hide();
     }
 
-    this.map.invalidateSize(true);
+    L.Util.requestAnimFrame(this.map.invalidateSize, this.map,
+      false, this.map._container);
   },
 
   showSelected: function() {
@@ -148,13 +149,10 @@ module.exports = AmpersandView.extend({
     var mapBounds = new L.LatLngBounds([[selectedNode.lat, selectedNode.lon],
       [app.user.position.coords.latitude, app.user.position.coords.longitude]]);
 
-    console.log(this.map.getSize());
-
     this.map.fitBounds(mapBounds, {
-      animate: false,
+      animate: true,
       paddingTopLeft: [10, 145],
       paddingBottomRight: [10, 80]
     });
-    this.map.invalidateSize(true);
   }
 });

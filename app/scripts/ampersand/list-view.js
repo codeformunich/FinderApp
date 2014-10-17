@@ -21,7 +21,6 @@ module.exports = AmpersandView.extend({
     this.renderCollection(this.collection, CardView, this.el);
 
     if (!window.matchMedia('(min-width:860px)').matches) {
-      console.log('test');
       $(this.el).swipe({
         swipe:function(event, direction, distance, duration, fingerCount) {
           if (direction === 'left') {
