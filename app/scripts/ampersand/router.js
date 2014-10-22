@@ -5,8 +5,13 @@ var AmpersandRouter = require('ampersand-router');
 module.exports = AmpersandRouter.extend({
 
   routes: {
-    '': 'showList',
+    '': 'showEntry',
+    'list': 'showList',
     'details': 'showDetails'   // #help
+  },
+
+  showEntry: function() {
+    app.controller.showEntry();
   },
 
   showList: function() {

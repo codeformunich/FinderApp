@@ -14,7 +14,6 @@ var DeactivatedIcon = L.Icon.Default.extend({
 });
 
 module.exports = AmpersandView.extend({
-  autoRender: true,
   template: template,
 
   initialize: function() {
@@ -27,7 +26,6 @@ module.exports = AmpersandView.extend({
         L.Util.requestAnimFrame(this.showSelected, this, false, this.map._container);
       }
     });
-    this.listenTo(app.user, 'change:position', this.setUserPosition);
     this.deactivatedIcon = new DeactivatedIcon();
   },
 
@@ -57,7 +55,7 @@ module.exports = AmpersandView.extend({
      }).addTo(this.map);
 
     this.map.on('locationfound', this.setUserPosition, this);
-    this.map.locate({setView: true, maxZoom: 16});
+    this.map.locate({setView: true, maxZoom: 16, watch: true});
   },
 
   addMarkers: function(e) {
