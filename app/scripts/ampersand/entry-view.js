@@ -4,7 +4,6 @@ var AmpersandView = require('ampersand-view');
 var template = require('./templates/entry');
 
 module.exports = AmpersandView.extend({
-  autoRender: true,
   template: template,
 
   events: {

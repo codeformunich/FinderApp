@@ -10,6 +10,7 @@ var $ = require('jquery');
 require('touchswipe')($);
 
 module.exports = AmpersandView.extend({
+  autoRender: true,
   template: template,
 
   initialize: function() {

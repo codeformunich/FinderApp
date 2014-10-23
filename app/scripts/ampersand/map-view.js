@@ -14,6 +14,7 @@ var DeactivatedIcon = L.Icon.Default.extend({
 });
 
 module.exports = AmpersandView.extend({
+  autoRender: true,
   template: template,
 
   initialize: function() {

@@ -27,7 +27,6 @@ main {
   width: 100%;
   overflow: scroll;
   -webkit-overflow-scrolling: touch;
-  padding: 0.5em;
 
   @media screen and (min-width: $large-screen) {
     overflow: hidden;

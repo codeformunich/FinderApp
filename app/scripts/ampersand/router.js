@@ -15,13 +15,12 @@ module.exports = AmpersandRouter.extend({
   },
 
   showList: function() {
-    console.log('show list');
     app.mapNodes.selectNode(undefined);
-    app.user.showDetails = false;
+    app.user.trigger('showList');
   },
 
   showDetails: function() {
-    app.user.showDetails = true;
+    app.user.trigger('showDetails');
   }
 
 });
