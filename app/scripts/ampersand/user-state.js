@@ -1,6 +1,7 @@
 'use strict';
 
 var AmpersandState = require('ampersand-state');
+var nominatim = require('../nominatim');
 
 module.exports = AmpersandState.extend({
 
@@ -10,8 +11,7 @@ module.exports = AmpersandState.extend({
     showDetails: 'boolean'
   },
 
-  locate: function(callback) {
-    var _this = this;
+  locate: function() {
     var positionFound = false;
 
     //clear old watchers
@@ -22,15 +22,33 @@ module.exports = AmpersandState.extend({
     this.watcherId = navigator.geolocation.watchPosition(function(position) {
       console.log('Found position:');
       console.log(position.coords);
-      _this.position = position;
+      app.user.position = position;
 
       if (!positionFound) {
-        callback(position);
+        app.user.processPosition(position);
         positionFound = true;
       }
     }, function(error) {
       console.log('Error: ' + error.message);
     }
     );
+  },
+
+  processPosition: function(position) {
+    nominatim.requestWithPosition(app.query,
+                                        {lat: position.coords.latitude,
+                                        lon: position.coords.longitude},
+                                        app.user.processNominatimResults);
+  },
+
+  processPostcode: function(postcode) {
+    nominatim.requestWithPostcode(app.query, postcode,
+                            app.user.processNominatimResults);
+  },
+
+  processNominatimResults: function(nodesArray) {
+    app.mapNodes.add(nodesArray);
+    app.mapNodes.removeDuplicates();
+    app.mapNodes.trigger('sync');
   }
 });

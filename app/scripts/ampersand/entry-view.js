@@ -11,6 +11,6 @@ module.exports = AmpersandView.extend({
   },
 
   useLocation: function() {
-    app.user.locate(app.processPosition);
+    app.user.locate();
   }
 });

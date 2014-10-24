@@ -9,8 +9,7 @@ var ResultView = require('./ampersand/result-view');
 var Router = require('./ampersand/router');
 var controller = require('./ampersand/app-controller');
 var menu = require('./vendor/menu');
-var nominatim = require('./nominatim');
-var nominatimQuery = 'Spielplatz';
+
 
 //The query that gets used with nominatim, for a full list:
 // http://wiki.openstreetmap.org/wiki/Nominatim/Special_Phrases
@@ -21,6 +20,8 @@ module.exports = {
 
   blastoff: function() {
     window.app = this;
+    app.query = 'Spielplatz';
+
     app.user = new UserState();
     app.mapNodes = new MapNodeCollection();
 
@@ -31,10 +32,11 @@ module.exports = {
     console.log(controller);
 
     app.controller = controller;
+
     app.pageSwitcher = new ViewSwitcher(document.querySelector('main'), {
       show: function(newView, oldView) {
         // it's inserted and rendered for me
-        document.title = newView.pageTitle || nominatimQuery + ' Finder';
+        document.title = newView.pageTitle || app.query + ' Finder';
         document.body.scrollTop = 0;
       }
     });
@@ -45,19 +47,6 @@ module.exports = {
     app.router.history.start({pushState: false});
     console.log('Blastoff!');
   },
-
-  processPosition: function(position) {
-    nominatim.performRequest({lat: position.coords.latitude,
-                            lon: position.coords.longitude},
-                            '[' + nominatimQuery + ']',
-                            app.processNominatimResults);
-  },
-
-  processNominatimResults: function(nodesArray) {
-    app.mapNodes.add(nodesArray);
-    app.mapNodes.removeDuplicates();
-    app.mapNodes.trigger('sync');
-  }
 };
 
 module.exports.blastoff();

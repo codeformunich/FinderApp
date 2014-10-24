@@ -26,11 +26,25 @@ function createBoundingBoxStr(position) {
 /**
  * Function to retrieve stuff from overpass. Query in the form of ["leisure"="playground"]
  */
-function performRequest(currentPosition, query, cb) {
+function requestWithPosition(query, currentPosition, cb) {
   callback = cb;
 
-  nominatimParams.q = query;
+  nominatimParams.q = '[' + query + ']';
   nominatimParams.viewbox = createBoundingBoxStr(currentPosition);
+  var urlStr = nominatimUrl + decodeURIComponent($.param(nominatimParams));
+  console.log(urlStr);
+  $.getJSON(urlStr,
+    function(data) {
+      data = parse(data);
+      callback(parse(data));
+      //parse(data);
+    });
+}
+
+function requestWithPostcode(query, postcode, cb) {
+  callback = cb;
+
+  nominatimParams.q = '[' + query + ' in ' + postcode + ']';
   var urlStr = nominatimUrl + decodeURIComponent($.param(nominatimParams));
   console.log(urlStr);
   $.getJSON(urlStr,
@@ -53,4 +67,5 @@ function parse(data) {
 }
 
 
-exports.performRequest = performRequest;
+exports.requestWithPosition = requestWithPosition;
+exports.requestWithPostcode = requestWithPostcode;
