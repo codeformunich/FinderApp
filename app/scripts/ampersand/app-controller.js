@@ -3,14 +3,6 @@
 module.exports = {
 
   initialize: function() {
-    app.user.on('change:position', function() {
-      if (app.user.position) {
-        this.showList();
-      } else {
-        this.showEntry();
-      }
-    }, this);
-
     app.user.on('showList', function() {
       this.showList();
     }, this);

@@ -19,6 +19,8 @@ module.exports = AmpersandState.extend({
       navigator.geolocation.clearWatch(this.watcherId);
     }
 
+    this.trigger('showList');
+
     this.watcherId = navigator.geolocation.watchPosition(function(position) {
       console.log('Found position:');
       console.log(position.coords);
@@ -42,12 +44,15 @@ module.exports = AmpersandState.extend({
   },
 
   processPostcode: function(postcode) {
+    this.trigger('showList');
     nominatim.requestWithPostcode(app.query, postcode,
                             app.user.processNominatimResults);
+
   },
 
   processNominatimResults: function(nodesArray) {
-    app.mapNodes.add(nodesArray);
+    console.log(nodesArray);
+    app.mapNodes.reset(nodesArray);
     app.mapNodes.removeDuplicates();
     app.mapNodes.trigger('sync');
   }
