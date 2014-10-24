@@ -8,3 +8,13 @@ input[type="submit"] {
   vertical-align: middle;
   white-space: nowrap;
 }
+
+.secondary-button {
+  color: black;
+  font-weight: normal;
+  background: $light-gray;
+
+  &:hover{
+    background: darken($light-gray, 10);
+  }
+}
