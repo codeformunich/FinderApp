@@ -33,12 +33,16 @@ module.exports = AmpersandModel.extend({
   },
 
   computeDistance: function() {
-    var positionVal = {
-      lat: app.user.position.coords.latitude,
-      lon: app.user.position.coords.longitude
-    };
-    var distance = locationMath.getDistance(positionVal, this.toCoords());
-    return Math.round(distance);
+    if (app.user.position) {
+      var positionVal = {
+        lat: app.user.position.coords.latitude,
+        lon: app.user.position.coords.longitude
+      };
+      var distance = locationMath.getDistance(positionVal, this.toCoords());
+      return Math.round(distance);
+    } else {
+      return null;
+    }
   },
 
   toCoords: function() {
