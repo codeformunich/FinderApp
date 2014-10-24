@@ -19,6 +19,7 @@ module.exports = AmpersandView.extend({
 
   initialize: function() {
     this.listenTo(this.collection, 'sync', this.addMarkers);
+    this.listenTo(app.user, 'change:position', this.setUserPosition);
     this.listenTo(this.collection, 'change:selectedNode', function() {
       if (this.collection.length) {
         this.addMarkers();
@@ -27,6 +28,7 @@ module.exports = AmpersandView.extend({
         L.Util.requestAnimFrame(this.showSelected, this, false, this.map._container);
       }
     });
+
     this.deactivatedIcon = new DeactivatedIcon();
   },
 
@@ -55,8 +57,7 @@ module.exports = AmpersandView.extend({
        maxZoom: 16
      }).addTo(this.map);
 
-    this.map.on('locationfound', this.setUserPosition, this);
-    this.map.locate({setView: true, maxZoom: 16, watch: true});
+    this.setUserPosition();
   },
 
   addMarkers: function(e) {
@@ -108,6 +109,7 @@ module.exports = AmpersandView.extend({
   },
 
   setUserPosition: function() {
+    console.log('user');
     if (app.user.position) {
       var coords = app.user.position.coords;
       var rad = coords.accuracy / 2;

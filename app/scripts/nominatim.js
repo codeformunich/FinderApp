@@ -7,7 +7,6 @@ var $ = require('jquery');
 var locationMath = require('location-math');
 var nominatimUrl = 'http://nominatim.openstreetmap.org/search?';
 var nominatimParams = {
-  bounded: 1,
   format: 'json',
   polygon: 0,
   limit: 15,
@@ -31,6 +30,8 @@ function requestWithPosition(query, currentPosition, cb) {
 
   nominatimParams.q = '[' + query + ']';
   nominatimParams.viewbox = createBoundingBoxStr(currentPosition);
+  nominatimParams.bounded = 1;
+
   var urlStr = nominatimUrl + decodeURIComponent($.param(nominatimParams));
   console.log(urlStr);
   $.getJSON(urlStr,
