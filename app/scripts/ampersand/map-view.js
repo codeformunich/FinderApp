@@ -109,16 +109,20 @@ module.exports = AmpersandView.extend({
   },
 
   setUserPosition: function() {
-    console.log('user');
-    if (app.user.position) {
-      var coords = app.user.position.coords;
-      var rad = coords.accuracy / 2;
+    var position = app.user.position;
+    if (position) {
+      var latlon = [position.coords.latitude, position.coords.longitude];
+      var rad = position.coords.accuracy / 2;
 
-      if (this.posMarker) {
+      if (this.accMarker) {
+        this.map.removeLayer(this.accMarker);
         this.map.removeLayer(this.posMarker);
       }
 
-      this.posMarker = new L.Circle([coords.latitude, coords.longitude], rad);
+      this.accMarker = new L.Circle(latlon, rad);
+      this.posMarker = new L.circleMarker(latlon,
+        {opacity: 1, radius: 5, fillOpacity: 0.9});
+      this.map.addLayer(this.accMarker);
       this.map.addLayer(this.posMarker);
     }
   },

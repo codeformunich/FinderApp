@@ -36,7 +36,7 @@ module.exports = {
     app.pageSwitcher = new ViewSwitcher(document.querySelector('main'), {
       show: function(newView, oldView) {
         // it's inserted and rendered for me
-        document.title = newView.pageTitle || app.query + ' Finder';
+        document.title = newView.pageTitle || app.query + 'finder';
         document.body.scrollTop = 0;
       }
     });
