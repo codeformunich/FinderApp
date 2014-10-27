@@ -39,7 +39,7 @@ module.exports = AmpersandView.extend({
   },
 
   triggerDetails: function(showDetails) {
-    if (showDetails) {
+    if (showDetails && !window.matchMedia('(min-width:860px)').matches) {
       $(this.el).swipe('enable');
       this.el.classList.add('cards--full');
     } else {

@@ -9,7 +9,7 @@ var apikey = 'a5fdf236c7fb42d794a43e94be030fb2';
 var DeactivatedIcon = L.Icon.Default.extend({
   options: {
     iconUrl: 'images/leaflet/marker-icon_deact.png',
-    iconRetinaUrl: 'images/leaflet/marker-icon-2x_deact.png'
+    iconRetinaUrl: 'images/leaflet/marker-icon_deact-2x.png'
   }
 });
 
@@ -28,8 +28,6 @@ module.exports = AmpersandView.extend({
         L.Util.requestAnimFrame(this.showSelected, this, false, this.map._container);
       }
     });
-
-    this.deactivatedIcon = new DeactivatedIcon();
   },
 
   render: function() {
@@ -92,7 +90,7 @@ module.exports = AmpersandView.extend({
     var coords = mapNode.toCoords();
 
     if (options.deactivated === true) {
-      marker = L.marker([coords.lat, coords.lon], {icon: this.deactivatedIcon});
+      marker = L.marker([coords.lat, coords.lon], {icon: new DeactivatedIcon()});
     } else {
       marker = L.marker([coords.lat, coords.lon]);
     }
@@ -119,11 +117,9 @@ module.exports = AmpersandView.extend({
         this.map.removeLayer(this.posMarker);
       }
 
-      this.accMarker = new L.Circle(latlon, rad);
+      this.accMarker = new L.Circle(latlon, rad).addTo(this.map);
       this.posMarker = new L.circleMarker(latlon,
-        {opacity: 1, radius: 5, fillOpacity: 0.9});
-      this.map.addLayer(this.accMarker);
-      this.map.addLayer(this.posMarker);
+        {opacity: 1, radius: 5, fillOpacity: 0.9}).addTo(this.map);
     }
   },
 

@@ -23,14 +23,14 @@ module.exports = AmpersandView.extend({
   },
 
   showDetails: function() {
-    if (!window.matchMedia('(min-width:860px)').matches) {
-      this.listView.triggerDetails(true);
-      this.mapView.triggerDetails(true);
-    }
+    this.listView.triggerDetails(true);
+    this.mapView.triggerDetails(true);
   },
 
   showList: function() {
-    this.listView.triggerDetails(false);
-    this.mapView.triggerDetails(false);
+    if (!window.matchMedia('(min-width:860px)').matches) {
+      this.listView.triggerDetails(false);
+      this.mapView.triggerDetails(false);
+    }
   }
 });
