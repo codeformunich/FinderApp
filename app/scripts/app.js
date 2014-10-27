@@ -10,7 +10,6 @@ var Router = require('./ampersand/router');
 var controller = require('./ampersand/app-controller');
 var menu = require('./vendor/menu');
 
-
 //The query that gets used with nominatim, for a full list:
 // http://wiki.openstreetmap.org/wiki/Nominatim/Special_Phrases
 

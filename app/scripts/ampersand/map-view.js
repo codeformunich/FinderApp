@@ -1,6 +1,7 @@
 'use strict';
 
 var L = require('leaflet');
+var easyButton = require('../vendor/easy-button');
 var $ = require('jquery');
 L.Icon.Default.imagePath = 'images/leaflet';
 var AmpersandView = require('ampersand-view');
@@ -25,7 +26,8 @@ module.exports = AmpersandView.extend({
         this.addMarkers();
       }
       if (this.collection.selectedNode) {
-        L.Util.requestAnimFrame(this.showSelected, this, false, this.map._container);
+        L.Util.requestAnimFrame(this.showSelected, this,
+          false, this.map._container);
       }
     });
   },
@@ -54,6 +56,15 @@ module.exports = AmpersandView.extend({
                     '</div>',
        maxZoom: 16
      }).addTo(this.map);
+
+    //TODO: Make cleaner
+    var _this = this;
+    L.easyButton('fa-compass',
+      function() {
+        var coords = app.user.position.coords;
+        _this.map.setView([coords.latitude, coords.longitude]);
+      }, 'Zoom to your position', this.map
+    );
 
     this.setUserPosition();
   },
@@ -110,7 +121,7 @@ module.exports = AmpersandView.extend({
     var position = app.user.position;
     if (position) {
       var latlon = [position.coords.latitude, position.coords.longitude];
-      var rad = position.coords.accuracy / 2;
+      var rad = position.coords.accuracy;
 
       if (this.accMarker) {
         this.map.removeLayer(this.accMarker);
