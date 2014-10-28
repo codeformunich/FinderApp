@@ -1,18 +1,12 @@
 'use strict';
 
 var L = require('leaflet');
-var easyButton = require('../vendor/easy-button');
+require('../leaflet-config');
 var $ = require('jquery');
 L.Icon.Default.imagePath = 'images/leaflet';
 var AmpersandView = require('ampersand-view');
 var template = require('./templates/map');
 var apikey = 'a5fdf236c7fb42d794a43e94be030fb2';
-var DeactivatedIcon = L.Icon.Default.extend({
-  options: {
-    iconUrl: 'images/leaflet/marker-icon_deact.png',
-    iconRetinaUrl: 'images/leaflet/marker-icon_deact-2x.png'
-  }
-});
 
 module.exports = AmpersandView.extend({
   autoRender: true,
@@ -101,7 +95,8 @@ module.exports = AmpersandView.extend({
     var coords = mapNode.toCoords();
 
     if (options.deactivated === true) {
-      marker = L.marker([coords.lat, coords.lon], {icon: new DeactivatedIcon()});
+      marker = L.marker([coords.lat, coords.lon],
+        {icon: new L.Icon.Deactivated()});
     } else {
       marker = L.marker([coords.lat, coords.lon]);
     }

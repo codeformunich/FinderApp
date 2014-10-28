@@ -2,6 +2,13 @@
 
 var L = require('leaflet');
 
+L.Icon.Deactivated = L.Icon.Default.extend({
+  options: {
+    iconUrl: 'images/leaflet/marker-icon_deact.png',
+    iconRetinaUrl: 'images/leaflet/marker-icon_deact-2x.png'
+  }
+});
+
 L.Control.EasyButtons = L.Control.extend({
   options: {
     position: 'topleft',
