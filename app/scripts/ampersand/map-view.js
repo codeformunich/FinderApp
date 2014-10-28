@@ -158,13 +158,17 @@ module.exports = AmpersandView.extend({
   showSelected: function() {
     var selectedNode = this.collection.selectedNode;
 
-    var mapBounds = new L.LatLngBounds([[selectedNode.lat, selectedNode.lon],
+    if (app.user.position) {
+      var mapBounds = new L.LatLngBounds([[selectedNode.lat, selectedNode.lon],
       [app.user.position.coords.latitude, app.user.position.coords.longitude]]);
 
-    this.map.fitBounds(mapBounds, {
-      animate: true,
-      paddingTopLeft: [10, 145],
-      paddingBottomRight: [10, 80]
-    });
+      this.map.fitBounds(mapBounds, {
+        animate: true,
+        paddingTopLeft: [10, 145],
+        paddingBottomRight: [10, 80]
+      });
+    } else {
+      this.map.setView([selectedNode.lat, selectedNode.lon]);
+    }
   }
 });
