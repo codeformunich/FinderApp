@@ -11,7 +11,7 @@ module.exports = AmpersandState.extend({
     watcherId: 'number'
   },
 
-  locate: function() {
+  locate: function(callback) {
     var positionFound = false;
 
     //clear old watchers
@@ -26,10 +26,10 @@ module.exports = AmpersandState.extend({
       console.log(position.coords);
       app.user.position = position;
 
-      if (!positionFound) {
-        app.user.processPosition(position);
-        positionFound = true;
+      if (!positionFound && callback) {
+        callback(position);
       }
+      positionFound = true;
     }, function(error) {
       console.log('Error: ' + error.message);
     }

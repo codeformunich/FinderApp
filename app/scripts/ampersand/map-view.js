@@ -26,15 +26,23 @@ module.exports = AmpersandView.extend({
     });
 
     //TODO: Maybe move into config
+
+    var _this = this;
     this.locateControl = new L.Control.Locate(
       {
-        icon: 'location-arrow',
         position: 'bottomleft',
         title: 'Meine Position'
       },
       function() {
-        var coords = app.user.position.coords;
-        this.map.setView([coords.latitude, coords.longitude]);
+        if (app.user.position) {
+          var coords = app.user.position.coords;
+          this.map.setView([coords.latitude, coords.longitude]);
+        } else {
+          app.user.locate(function() {
+            _this.map.setView([app.user.position.coords.latitude,
+            app.user.position.coords.longitude]);
+          });
+        }
       }, this
     );
   },
@@ -119,6 +127,7 @@ module.exports = AmpersandView.extend({
 
   setUserPosition: function() {
     var position = app.user.position;
+    console.log(position);
     if (position) {
       var latlon = [position.coords.latitude, position.coords.longitude];
       var rad = position.coords.accuracy;
@@ -141,14 +150,14 @@ module.exports = AmpersandView.extend({
       this.map.touchZoom.enable();
       this.map.doubleClickZoom.enable();
       this.map.scrollWheelZoom.enable();
-      $('.leaflet-control-zoom').show();
+      $('.leaflet-control-zoom, .location-arrow').show();
     } else {
       this.el.classList.remove('map-card--full');
       this.map.dragging.disable();
       this.map.touchZoom.disable();
       this.map.doubleClickZoom.disable();
       this.map.scrollWheelZoom.disable();
-      $('.leaflet-control-zoom').hide();
+      $('.leaflet-control-zoom, .location-arrow').hide();
     }
 
     L.Util.requestAnimFrame(this.map.invalidateSize, this.map,

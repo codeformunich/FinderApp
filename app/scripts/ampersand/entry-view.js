@@ -13,7 +13,7 @@ module.exports = AmpersandView.extend({
   },
 
   useLocation: function() {
-    app.user.locate();
+    app.user.locate(app.user.processPosition);
   },
 
   usePostcode: function(ev) {
