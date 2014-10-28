@@ -19,8 +19,7 @@ L.Control.Locate = L.Control.extend({
   onAdd: function() {
     var container = L.DomUtil.create('div', 'leaflet-bar leaflet-control');
 
-    this.link = L.DomUtil.create('a', 'leaflet-bar-part', container);
-    this._addImage();
+    this.link = L.DomUtil.create('a', 'leaflet-bar-part location-arrow', container);
     this.link.href = '#';
     L.DomEvent.on(this.link, 'click', this._click, this);
     this.link.title = this.options.title;
@@ -36,16 +35,5 @@ L.Control.Locate = L.Control.extend({
     L.DomEvent.stopPropagation(e);
     L.DomEvent.preventDefault(e);
     this.clickFun.call(this.context);
-  },
-
-  _addImage: function() {
-    var extraClasses;
-    if (this.options.icon.lastIndexOf('fa', 0) === 0) {
-      extraClasses = ' fa fa-lg';
-    } else {
-      extraClasses = ' glyphicon';
-    }
-
-    L.DomUtil.create('i', this.options.icon + extraClasses, this.link);
   }
 });

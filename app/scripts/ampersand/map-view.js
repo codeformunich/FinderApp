@@ -28,7 +28,7 @@ module.exports = AmpersandView.extend({
     //TODO: Maybe move into config
     this.locateControl = new L.Control.Locate(
       {
-        icon: 'fa-compass',
+        icon: 'location-arrow',
         position: 'bottomleft',
         title: 'Meine Position'
       },

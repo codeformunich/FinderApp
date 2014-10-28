@@ -18,3 +18,8 @@ input[type="submit"] {
     background: darken($light-gray, 10);
   }
 }
+
+.location-arrow {
+  background: url(/images/leaflet/location-arrow.png);
+  background-size: 16px auto;
+}
