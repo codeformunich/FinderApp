@@ -1,5 +1,6 @@
 'use strict';
 
+var $ = require('jquery');
 var AmpersandView = require('ampersand-view');
 var template = require('./templates/card');
 
@@ -22,5 +23,17 @@ module.exports = AmpersandView.extend({
     app.user.trigger('showDetails');
     this.model.collection.selectNode(this.model);
     console.log(this.model.collection.selectedNode);
+  },
+
+  showAsSelected: function(flag) {
+    var $el = $(this.el);
+
+    if (flag) {
+      $el.removeClass('card--deselected');
+      $el.addClass('card--selected');
+    } else {
+      $el.removeClass('card--selected');
+      $el.addClass('card--deselected');
+    }
   }
 });

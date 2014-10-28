@@ -71,7 +71,6 @@
 
   .card-header {
     @include transition (all 0.2s ease-in-out);
-    background-color: $card-header-background;
     border-bottom: $card-border;
     border-radius: $base-border-radius $base-border-radius 0 0;
     font-weight: bold;
@@ -125,6 +124,13 @@
   }
 }
 
+.card--selected {
+  box-shadow: 3px 5px 7px darken($base-background-color, 30);
+}
+
+.card--deselected {
+  background: #f0f0f0;
+}
 
 .map-card {
   @extend .card;
