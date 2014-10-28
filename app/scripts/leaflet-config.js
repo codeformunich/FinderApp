@@ -19,7 +19,8 @@ L.Control.Locate = L.Control.extend({
   onAdd: function() {
     var container = L.DomUtil.create('div', 'leaflet-bar leaflet-control');
 
-    this.link = L.DomUtil.create('a', 'leaflet-bar-part location-arrow', container);
+    this.link = L.DomUtil.create('a', 'leaflet-bar-part location-arrow',
+      container);
     this.link.href = '#';
     L.DomEvent.on(this.link, 'click', this._click, this);
     this.link.title = this.options.title;

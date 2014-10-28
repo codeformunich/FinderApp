@@ -10,7 +10,9 @@
         <div>
           Oder gib selbst eine Postleitzahl ein: <br>
           <form>
-            <input type="tel" name="postcode" value="" placeholder="PLZ">
+            <input type="tel" name="postcode" value=""
+              placeholder="PLZ" pattern="\b\d{5}\b">
+            <button type="submit" class="secondary-button" style="display: none;">Suchen</button>
           </form>
         </div>
       </div>
