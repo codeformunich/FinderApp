@@ -9,11 +9,11 @@ L.Icon.Deactivated = L.Icon.Default.extend({
   }
 });
 
-L.Control.EasyButtons = L.Control.extend({
-  options: {
-    position: 'topleft',
-    title: '',
-    intentedIcon: 'fa-circle-o'
+L.Control.Locate = L.Control.extend({
+  initialize: function(options, clickFun, context) {
+    L.Util.setOptions(this, options);
+    this.clickFun = clickFun;
+    this.context = context;
   },
 
   onAdd: function() {
@@ -28,49 +28,24 @@ L.Control.EasyButtons = L.Control.extend({
     return container;
   },
 
-  intendedFunction: function() {
+  clickFun: function() {
     alert('no function selected');
   },
 
   _click: function(e) {
     L.DomEvent.stopPropagation(e);
     L.DomEvent.preventDefault(e);
-    this.intendedFunction();
+    this.clickFun.call(this.context);
   },
 
   _addImage: function() {
     var extraClasses;
-    if (this.options.intentedIcon.lastIndexOf('fa', 0) === 0) {
+    if (this.options.icon.lastIndexOf('fa', 0) === 0) {
       extraClasses = ' fa fa-lg';
     } else {
       extraClasses = ' glyphicon';
     }
 
-    L.DomUtil.create('i', this.options.intentedIcon + extraClasses, this.link);
+    L.DomUtil.create('i', this.options.icon + extraClasses, this.link);
   }
 });
-
-L.easyButton = function(btnIcon, btnFunction, btnTitle, btnMap) {
-  var newControl = new L.Control.EasyButtons();
-
-  if (btnIcon) {
-    newControl.options.intentedIcon = btnIcon;
-  }
-
-  if (typeof btnFunction === 'function') {
-    newControl.intendedFunction = btnFunction;
-  }
-
-  if (btnTitle) {
-    newControl.options.title = btnTitle;
-  }
-
-  if (btnMap === '') {
-    // skip auto addition
-  } else if (btnMap) {
-    btnMap.addControl(newControl);
-  } else {
-    console.log('no map defined');
-  }
-  return newControl;
-};

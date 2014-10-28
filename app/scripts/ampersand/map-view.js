@@ -24,6 +24,19 @@ module.exports = AmpersandView.extend({
           false, this.map._container);
       }
     });
+
+    //TODO: Maybe move into config
+    this.locateControl = new L.Control.Locate(
+      {
+        icon: 'fa-compass',
+        position: 'bottomleft',
+        title: 'Meine Position'
+      },
+      function() {
+        var coords = app.user.position.coords;
+        this.map.setView([coords.latitude, coords.longitude]);
+      }, this
+    );
   },
 
   render: function() {
@@ -51,16 +64,8 @@ module.exports = AmpersandView.extend({
        maxZoom: 16
      }).addTo(this.map);
 
-    //TODO: Make cleaner
-    var _this = this;
-    L.easyButton('fa-compass',
-      function() {
-        var coords = app.user.position.coords;
-        _this.map.setView([coords.latitude, coords.longitude]);
-      }, 'Zoom to your position', this.map
-    );
-
     this.setUserPosition();
+    this.map.addControl(this.locateControl);
   },
 
   addMarkers: function(e) {
