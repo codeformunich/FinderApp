@@ -19,7 +19,6 @@ module.exports = AmpersandView.extend({
     this.listView = new ListView({collection: this.collection});
     this.resultsEl.appendChild(this.mapView.el);
     this.resultsEl.appendChild(this.listView.el);
-
   },
 
   showDetails: function() {

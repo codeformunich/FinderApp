@@ -52,14 +52,13 @@ module.exports = AmpersandView.extend({
   },
 
   showSelected: function() {
-    var selectedId = this.collection.indexOf(this.collection.selectedNode);
-
+    var selectedNode = this.collection.selectedNode;
     this.collectionView.views.forEach(function(view, index) {
-      view.showAsSelected(index === selectedId);
+      view.showAsSelected(selectedNode === view.model);
     });
 
     if (!window.matchMedia('(min-width:860px)').matches) {
-      var index = this.collection.indexOf(this.collection.selectedNode);
+      var index = this.collection.indexOf(selectedNode);
       $(this.el).find('li').css('left', -85 * index + '%');
     }
   }
