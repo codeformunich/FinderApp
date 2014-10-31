@@ -52,14 +52,21 @@ module.exports = AmpersandView.extend({
   },
 
   showSelected: function() {
+    var selectedIndex;
     var selectedNode = this.collection.selectedNode;
     this.collectionView.views.forEach(function(view, index) {
-      view.showAsSelected(selectedNode === view.model);
+      if (selectedNode === view.model) {
+        view.showAsSelected(true);
+        selectedIndex = index;
+      } else {
+        view.showAsSelected(false);
+      }
     });
 
     if (!window.matchMedia('(min-width:860px)').matches) {
-      var index = this.collection.indexOf(selectedNode);
-      $(this.el).find('li').css('left', -85 * index + '%');
+      $(this.el).find('li').css('left', -85 * selectedIndex + '%');
+    } else {
+      //TODO: find correct scrolling algorithm, only scroll when necessary
     }
   }
 });
