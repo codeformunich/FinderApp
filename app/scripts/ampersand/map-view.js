@@ -117,7 +117,7 @@ module.exports = AmpersandView.extend({
     marker.addTo(this.markers);
 
     marker.on('click', function() {
-      app.user.targetId = mapNode.osmId;
+      app.mapNodes.selectNode(mapNode);
     });
 
     if (options.popupText) {
