@@ -18,7 +18,8 @@ module.exports = AmpersandView.extend({
 
     var _this = this;
     window.addEventListener('orientationchange', function() {
-      _this.triggerSwipe(true);
+      alert('change');
+      _this.enableSwipe(true);
     }, false);
   },
 
@@ -26,7 +27,6 @@ module.exports = AmpersandView.extend({
     this.renderWithTemplate();
     this.collectionView = this.renderCollection(this.collection,
                                                   CardView, this.el);
-    console.log(this.collectionView);
 
     if (!window.matchMedia('(min-width:860px)').matches) {
       $(this.el).swipe({
@@ -59,7 +59,9 @@ module.exports = AmpersandView.extend({
   enableSwipe: function(flag) {
     if (flag && !window.matchMedia('(min-width:860px)').matches) {
       $(this.el).swipe('enable');
+      console.log('enabled');
     } else {
+      console.log('disabled')
       $(this.el).swipe('disable');
     }
   },
