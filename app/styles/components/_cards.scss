@@ -1,10 +1,23 @@
 .cards {
   @include clearfix;
+}
 
-  &.cards--full {
-    position: absolute;
-    top: 15px;
+.cards--full {
+  position: absolute;
+
+
+  @include media(min-width $large-screen) {
+    top: 0;
+    right: 0;
+    height: 100%;
+    width: 260px;
+    padding: 15px 10px 0 0;
+    overflow: scroll;
+  }
+
+  @include media(max-width $large-screen){
     left: 0;
+    top: 15px;
     height: 130px;
     width: 100%;
     padding: 0;
@@ -23,17 +36,9 @@
       }
     }
   }
-
-  @include media($large-screen) {
-    position: absolute;
-    top: 0;
-    right: 0;
-    height: 100%;
-    width: 260px;
-    padding: 15px 10px 0 0;
-    overflow: scroll;
-  }
 }
+
+
 
 .card {
   $card-border-color: $base-border-color;
@@ -147,19 +152,6 @@
     left: 0;
     bottom: 0;
     right: 0;
-    width: 100%;
-    margin: 0;
-
-    >div {
-      height: 100%;
-    }
-  }
-
-  @include media($large-screen) {
-    position: absolute;
-    top: 0;
-    left: 0;
-    bottom: 0;
     width: 100%;
     margin: 0;
 

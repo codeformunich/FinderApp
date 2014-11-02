@@ -20,8 +20,7 @@ module.exports = AmpersandView.extend({
   },
 
   showDetails: function() {
-    app.user.trigger('showDetails');
-    this.model.collection.selectNode(this.model);
+    app.user.trigger('showDetails', this.model);
     console.log(this.model.collection.selectedNode);
   },
 

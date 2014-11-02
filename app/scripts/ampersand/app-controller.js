@@ -4,11 +4,18 @@ module.exports = {
 
   initialize: function() {
     app.user.on('showList', function() {
-      this.showList();
+      if (!window.matchMedia('(min-width:860px)').matches) {
+        this.showList();
+      } else {
+        this.showDetails();
+      }
     }, this);
 
-    app.user.on('showDetails', function() {
-      this.showDetails();
+    app.user.on('showDetails', function(selectedModel) {
+      if (app.router.history.fragment === 'list') {
+        this.showDetails();
+      }
+      app.mapNodes.selectNode(selectedModel);
     }, this);
   },
 

@@ -15,6 +15,11 @@ module.exports = AmpersandView.extend({
 
   initialize: function() {
     this.listenTo(this.collection, 'change:selectedNode', this.showSelected);
+
+    var _this = this;
+    window.addEventListener('orientationchange', function() {
+      _this.triggerSwipe(true);
+    }, false);
   },
 
   render: function() {
@@ -41,13 +46,21 @@ module.exports = AmpersandView.extend({
   },
 
   triggerDetails: function(showDetails) {
-    if (showDetails && !window.matchMedia('(min-width:860px)').matches) {
-      $(this.el).swipe('enable');
+    if (showDetails) {
+      this.enableSwipe(true);
       this.el.classList.add('cards--full');
     } else {
-      $(this.el).swipe('disable');
+      this.enableSwipe(false);
       this.el.classList.remove('cards--full');
       $(this.el).find('li').css('left', 0);
+    }
+  },
+
+  enableSwipe: function(flag) {
+    if (flag && !window.matchMedia('(min-width:860px)').matches) {
+      $(this.el).swipe('enable');
+    } else {
+      $(this.el).swipe('disable');
     }
   },
 
