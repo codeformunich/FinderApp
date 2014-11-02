@@ -175,6 +175,15 @@
   background: url(/images/background.png);
 }
 
+.loading-card {
+  @extend .card;
+  span {
+    color: #ebebeb;
+    background: #ebebeb;
+    font-size: 0.1em;
+  }
+}
+
 .cards-container {
   padding: 0.5em;
 }

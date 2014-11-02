@@ -14,6 +14,7 @@ module.exports = AmpersandView.extend({
   template: template,
 
   initialize: function() {
+    this.listenTo(this.collection, 'sync', this.renderCards);
     this.listenTo(this.collection, 'change:selectedNode', this.showSelected);
 
     var _this = this;
@@ -24,24 +25,26 @@ module.exports = AmpersandView.extend({
 
   render: function() {
     this.renderWithTemplate();
-    this.collectionView = this.renderCollection(this.collection,
-                                                  CardView, this.el);
 
-    if (!window.matchMedia('(min-width:860px)').matches) {
-      $(this.el).swipe({
-        swipe:function(event, direction, distance, duration, fingerCount) {
-          if (direction === 'left') {
-            app.mapNodes.selectNextNode();
-          } else if (direction === 'right') {
-            app.mapNodes.selectPreviousNode();
-          }
-        },
-      });
+    $(this.el).swipe({
+      swipe:function(event, direction, distance, duration, fingerCount) {
+        if (direction === 'left') {
+          app.mapNodes.selectNextNode();
+        } else if (direction === 'right') {
+          app.mapNodes.selectPreviousNode();
+        }
+      },
+    });
 
-      this.triggerDetails(false);
-    }
+    this.triggerDetails(false);
 
     return this;
+  },
+
+  renderCards: function() {
+    $(this.el).empty();
+    this.collectionView = this.renderCollection(this.collection,
+                                                  CardView, this.el);
   },
 
   triggerDetails: function(showDetails) {
