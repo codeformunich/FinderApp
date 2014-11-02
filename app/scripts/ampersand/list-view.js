@@ -18,7 +18,6 @@ module.exports = AmpersandView.extend({
 
     var _this = this;
     window.addEventListener('orientationchange', function() {
-      alert('change');
       _this.enableSwipe(true);
     }, false);
   },
@@ -59,9 +58,7 @@ module.exports = AmpersandView.extend({
   enableSwipe: function(flag) {
     if (flag && !window.matchMedia('(min-width:860px)').matches) {
       $(this.el).swipe('enable');
-      console.log('enabled');
     } else {
-      console.log('disabled')
       $(this.el).swipe('disable');
     }
   },

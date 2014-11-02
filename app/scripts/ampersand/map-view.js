@@ -171,11 +171,19 @@ module.exports = AmpersandView.extend({
       var mapBounds = new L.LatLngBounds([[selectedNode.lat, selectedNode.lon],
       [app.user.position.coords.latitude, app.user.position.coords.longitude]]);
 
-      this.map.fitBounds(mapBounds, {
-        animate: true,
-        paddingTopLeft: [10, 145],
-        paddingBottomRight: [10, 80]
-      });
+      if (!window.matchMedia('(min-width:860px)').matches) {
+        this.map.fitBounds(mapBounds, {
+          animate: true,
+          paddingTopLeft: [10, 145],
+          paddingBottomRight: [10, 80]
+        });
+      } else {
+        this.map.fitBounds(mapBounds, {
+          animate: true,
+          paddingTopLeft: [10, 60],
+          paddingBottomRight: [260, 80]
+        });
+      }
     } else {
       this.map.setView([selectedNode.lat, selectedNode.lon]);
     }
