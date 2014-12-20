@@ -6,11 +6,16 @@ var template = require('./templates/entry');
 
 module.exports = AmpersandView.extend({
   template: template,
-
+  title: 'Interessantes',
+  
   events: {
     'click [data-action=locate]' : 'useLocation',
     'submit form' : 'usePostcode',
     'change input[type=tel]' : 'validatePostcode'
+  },
+  
+  initialize: function() {
+    this.title = app.config.title_plural;
   },
 
   useLocation: function() {
