@@ -19,27 +19,27 @@ module.exports = {
 
   blastoff: function() {
     window.app = this;
-	
-	app.config = {
+
+    app.config = {
 		//singular title used for the app
-		title: 'Spielplatz',
+      title: 'Spielplatz',
 		//plural title used for the app
-		title_plural: 'Spielplätze',
-		overpass: {
+      titlePlural: 'Spielplätze',
+      overpass: {
 			//query from http://wiki.openstreetmap.org/wiki/Nominatim/Special_Phrases/DE
-			query: 'Spielplatz',
+        query: 'Spielplatz',
 			//option within returned data to display as single entity's headline
-			headline: 'playground'
-		},
-		map: {
+        headline: 'playground'
+      },
+      map: {
 			//position of zoom buttons on map
-			zoom_position: 'bottomleft',
+        zoomPosition: 'bottomleft',
 			//position of "locate me" button on map
-			locateme_position: 'bottomleft',
+        locatemePosition: 'bottomleft',
 			//title text of "locate me" button
-			locateme_title: 'Meine Position'
-		}
-	};
+        locatemeTitle: 'Meine Position'
+      }
+    };
 
     app.user = new UserState();
     app.mapNodes = new MapNodeCollection();

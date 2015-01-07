@@ -15,7 +15,7 @@ module.exports = AmpersandView.extend({
   },
   
   initialize: function() {
-    this.title = app.config.title_plural;
+    this.title = app.config.titlePlural;
   },
 
   useLocation: function() {

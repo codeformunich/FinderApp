@@ -29,8 +29,8 @@ module.exports = AmpersandView.extend({
     var _this = this;
     this.locateControl = new L.Control.Locate(
       {
-        position: app.config.map.locateme_position,
-        title: app.config.map.locateme_title
+        position: app.config.map.locatemePosition,
+        title: app.config.map.locatemeTitle
       },
       function() {
         if (app.user.position) {
@@ -50,7 +50,7 @@ module.exports = AmpersandView.extend({
     this.renderWithTemplate();
 
     this.map = L.map(this.queryByHook('map'), {zoomControl: false});
-    new L.Control.Zoom({position: app.config.map.zoom_position}).addTo(this.map);
+    new L.Control.Zoom({position: app.config.map.zoomPosition}).addTo(this.map);
     var tp;
 
     if (L.Browser.retina) {
