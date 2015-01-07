@@ -37,6 +37,7 @@ module.exports = AmpersandState.extend({
   },
 
   processPosition: function(position) {
+    app.user.postcode = null;
     nominatim.requestWithPosition(app.config.overpass.query,
                                         {lat: position.coords.latitude,
                                         lon: position.coords.longitude},
@@ -45,6 +46,7 @@ module.exports = AmpersandState.extend({
 
   processPostcode: function(postcode) {
     this.trigger('showList');
+    app.user.postcode = postcode;
     nominatim.requestWithPostcode(app.config.overpass.query, postcode,
                             app.user.processNominatimResults);
 

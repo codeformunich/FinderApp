@@ -166,7 +166,7 @@ module.exports = AmpersandView.extend({
   showSelected: function() {
     var selectedNode = this.collection.selectedNode;
 
-    if (app.user.position) {
+    if (!app.user.postcode && app.user.position) {
       var mapBounds = new L.LatLngBounds([[selectedNode.lat, selectedNode.lon],
       [app.user.position.coords.latitude, app.user.position.coords.longitude]]);
 

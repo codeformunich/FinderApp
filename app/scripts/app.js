@@ -48,8 +48,6 @@ module.exports = {
     app.entryView = new EntryView();
     app.resultView = new ResultView({collection: app.mapNodes});
 
-    console.log(controller);
-
     app.controller = controller;
 
     app.pageSwitcher = new ViewSwitcher(document.querySelector('main'), {
