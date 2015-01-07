@@ -7,6 +7,8 @@ module.exports = AmpersandModel.extend({
 
   initialize: function() {
     this.distance = this.computeDistance();
+    this.distanceText = this.createDistanceText(this.distance);
+
     if (!this.address.road) {
       if (this.address.path) {
         this.address.road = this.address.path;
@@ -42,6 +44,14 @@ module.exports = AmpersandModel.extend({
       return Math.round(distance);
     } else {
       return null;
+    }
+  },
+
+  createDistanceText: function(distance) {
+    if (distance) {
+      return distance + 'm';
+    } else {
+      return '-';
     }
   },
 

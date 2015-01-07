@@ -13,7 +13,7 @@ module.exports = AmpersandView.extend({
   },
 
   bindings: {
-    'model.distance': {
+    'model.distanceText': {
       type: 'text',
       hook: 'distance'
     }
