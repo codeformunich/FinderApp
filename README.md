@@ -36,43 +36,54 @@ management as known from NodeJS.
 The following tutorial can also help you understand the purpose and uses of
 Gulp and Browserify:
 
-* [Gulp Browserify Starter FAQ]((http://viget.com/extend/gulp-browserify-starter-faq))
+* [Gulp Browserify Starter FAQ]((http://viget.com/extend/gulp-browserify-starter-faq)
 
 Deployment
 ----------
-Currently we use GitHub Pages for deploying an online version of the app.
+Currently we use [GitHub Pages](https://pages.github.com) for deploying an online version of the app.
 Our current progress is accessible [here](http://codeformunich.github.io/FinderApp/).
+
 To get a deployable version of the app run `gulp` while on the master branch.
-The contents of the `/dist` folder are then ready for deployment. To update the Version
-running on GitHub Pages just replace the contents of the gh-pages branch with the contents of the `/dist` folder.
+The contents of the `/dist` folder are then ready for deployment. This version can
+theoretically be hosted on any webserver.
+
+GitHub Pages uses the gh-pages branch as a source for the files that are hosted.
+This means to update the version running on GitHub Pages just replace the contents
+of the gh-pages branch with the contents of the `/dist` folder.
 
 
 Code Architecture
 -----------
 Our code uses the MV* framework [Ampersand.js](http://ampersandjs.com/) for structuring.
-Our general structure is derived from the short book [Human Javascript](http://read.humanjavascript.com) and the
+Our general structure is derived from the short book
+[Human Javascript](http://read.humanjavascript.com) and the
 [Ampersand documentation](http://ampersandjs.com/docs).
 `app.js` is the main entry point of our application and initializes required objects.
 `app-controller.js` manages the state changes in the app.
 The `user-state.js` is instantiated as a singleton that saves all properties of the user.
 `map-node-model.js` and `map-node-collection.js` define the classes that handle the
-results from Nominatim/Overpass.  
+results from Nominatim/Overpass.
+
+We use leaflet.js for showing and interacting with the map. Only our `map-view.js` and the
+`leaflet-config.js` interact with this library.
 
 
 Customisation
 ---------------
-In order to change the target utility of the FinderApp you just have to change two small things.
+In order to change the target utility of the FinderApp you just have to a few small things.
 
-* search query
-* graphical customisation (e.g. icons, colours)
-
+Title and search query can be changed in the config object in the `app.js` file.
 We use the [Nominatim API](http://wiki.openstreetmap.org/wiki/Nominatim) of OpenStreetMap.
 Nominatim is able to understand special keywords for search in OSM.
 A list of available keywords can be found [here](http://wiki.openstreetmap.org/wiki/Nominatim/Special_Phrases).
-You can change the query via the `app.query` variable in app.js.
 
-The logo url can be found in the index.html file and colours can be changed in the `*.scss` files.
+Additionally, you probably need to change the logo and maybe colours to suit your
+target utility. The logo url can be found in the index.html file and
+colours can be changed in the `*.scss` files.
 
+If you also want to host your version on GitHub Pages you can fork the project.
+Make sure you have a gh-pages branch with the updated contents of the `/dist` folder.
+An explanation of GitHub Pages can also be found [here](https://pages.github.com).
 
 Software Used
 -------------
