@@ -6,14 +6,10 @@ var MapNodeCollection = require('./ampersand/map-node-collection');
 var UserState = require('./ampersand/user-state');
 var EntryView = require('./ampersand/entry-view');
 var ResultView = require('./ampersand/result-view');
+var HeaderView = require('./ampersand/header-view');
 var Router = require('./ampersand/router');
 var controller = require('./ampersand/app-controller');
-var menu = require('./vendor/menu');
-
-//The query that gets used with nominatim, for a full list:
-// http://wiki.openstreetmap.org/wiki/Nominatim/Special_Phrases
-
-menu.initialize();
+var $ = require('jquery');
 
 module.exports = {
 
@@ -45,10 +41,13 @@ module.exports = {
     app.mapNodes = new MapNodeCollection();
 
     //instantiate the neccessary views
+    app.headerView = new HeaderView();
     app.entryView = new EntryView();
     app.resultView = new ResultView({collection: app.mapNodes});
 
     app.controller = controller;
+
+    $('header').append(app.headerView.el);
 
     app.pageSwitcher = new ViewSwitcher(document.querySelector('main'), {
       show: function(newView, oldView) {

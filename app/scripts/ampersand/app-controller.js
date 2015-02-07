@@ -1,4 +1,5 @@
 'use strict';
+var AboutView = require('./about-view');
 
 module.exports = {
 
@@ -16,6 +17,10 @@ module.exports = {
         this.showDetails();
       }
       app.mapNodes.selectNode(selectedModel);
+    }, this);
+
+    app.user.on('aboutPage', function() {
+      this.showAboutPage(name);
     }, this);
   },
 
@@ -42,5 +47,11 @@ module.exports = {
 
     app.resultView.showDetails();
     app.router.navigate('/details');
+  },
+
+  showAboutPage: function(name) {
+    var aboutView = new AboutView();
+    console.log(aboutView);
+    app.pageSwitcher.set(aboutView);
   }
 };

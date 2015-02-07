@@ -53,7 +53,6 @@ module.exports = AmpersandState.extend({
   },
 
   processNominatimResults: function(nodesArray) {
-    console.log(nodesArray);
     app.mapNodes.reset(nodesArray);
     app.mapNodes.removeDuplicates();
     app.mapNodes.trigger('sync');
