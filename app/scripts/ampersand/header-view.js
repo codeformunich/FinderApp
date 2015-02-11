@@ -28,8 +28,9 @@ module.exports = AmpersandView.extend({
     // $('.nav .nav-link').each(function() {
     //   $(this).removeClass('active-nav-item');
     // });
-    // $(this).addClass('active-nav-item');
     // $('.nav .more').removeClass('active-nav-item');
+    console.log(e.delegateTarget);
+    $(e.delegateTarget).addClass('active-nav-item');
     this.showMenu(e);
     app.user.trigger('aboutPage', 'about');
   }

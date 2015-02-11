@@ -7,7 +7,8 @@ module.exports = AmpersandRouter.extend({
   routes: {
     '': 'showEntry',
     'list': 'showList',
-    'details': 'showDetails'   // #help
+    'details': 'showDetails',   // #help
+    'about': 'showAbout'   // #help
   },
 
   showEntry: function() {
@@ -29,6 +30,10 @@ module.exports = AmpersandRouter.extend({
     } else {
       app.controller.showEntry();
     }
+  },
+
+  showAbout: function() {
+    app.user.trigger('aboutPage');
   }
 
 });

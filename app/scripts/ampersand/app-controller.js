@@ -51,7 +51,7 @@ module.exports = {
 
   showAboutPage: function(name) {
     var aboutView = new AboutView();
-    console.log(aboutView);
     app.pageSwitcher.set(aboutView);
+    app.router.navigate('/about');
   }
 };
