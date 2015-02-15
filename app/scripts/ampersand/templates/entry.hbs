@@ -9,10 +9,11 @@
         <div>
           <form>
             <label for="postcode">Suche mit Postleitzahl:</label>
+            <div class="card-error" data-hook="postcode-error"></div>
             <button type="submit" class="secondary-button">Suchen</button>
             <div class="card-inputs">
               <input type="tel" name="postcode" value=""
-                placeholder="PLZ" pattern="\b\d{5}\b" />
+                placeholder="PLZ"/>
             </div>
           </form>
         </div>

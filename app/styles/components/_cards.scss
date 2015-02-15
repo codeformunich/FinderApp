@@ -174,11 +174,11 @@
   }
 
   .secondary-button {
-    transition: width 0.5s;
+    transition: width 0.5s, margin 0.5s;
     width: 0px;
     float: right;
     height: 33px;
-    margin: 0 0 0 10px;
+    margin: 0 0 0 0;
     padding: 0 0 0 0;
   }
 }
@@ -211,6 +211,11 @@
   display: block;
   max-width: 250px;
   margin: 20px auto 20px auto;
+}
+
+.card-error {
+  @extend %flash-error;
+  display: none;
 }
 
 .loading-card {
