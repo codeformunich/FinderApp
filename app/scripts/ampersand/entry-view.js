@@ -11,7 +11,7 @@ module.exports = AmpersandView.extend({
   events: {
     'click [data-action=locate]' : 'useLocation',
     'submit form' : 'usePostcode',
-    'change input[type=tel]' : 'validatePostcode'
+    'click input[type=tel]' : 'validatePostcode'
   },
 
   initialize: function() {
@@ -25,17 +25,19 @@ module.exports = AmpersandView.extend({
   usePostcode: function(ev) {
     ev.preventDefault();
 
-    var postcode = $('input[name=postcode]').val();
+    var $postcode = $('input[name=postcode]');
 
-    app.user.processPostcode(postcode);
+    var pattern = new RegExp($postcode.attr('pattern'));
+    var postcode = $postcode.val();
+
+    if (pattern.test($postcode.val())) {
+      app.user.processPostcode(postcode);
+    }
+    //Todo: custom error message for mobile safari
+
   },
 
   validatePostcode: function(ev) {
-    if ($(this.el).find('input[type=tel]')[0].checkValidity()) {
-      console.log('test');
-      $(this.el).find('button[type=submit]').show();
-    } else {
-      $(this.el).find('button[type=submit]').hide();
-    }
+    $(this.el).find('button[type=submit]').css('width', 140);
   }
 });

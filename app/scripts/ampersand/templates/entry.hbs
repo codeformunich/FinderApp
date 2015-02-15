@@ -7,11 +7,13 @@
       <div class="card-copy">
         <button class="primary-button" data-action="locate">Nutze meinen aktuellen Standort</button>
         <div>
-          Oder gib selbst eine Postleitzahl ein: <br>
           <form>
-            <input type="tel" name="postcode" value=""
-              placeholder="PLZ" pattern="\b\d{5}\b">
-            <button type="submit" class="secondary-button" style="display: none;">Suchen</button>
+            <label for="postcode">Suche mit Postleitzahl:</label>
+            <button type="submit" class="secondary-button">Suchen</button>
+            <div class="card-inputs">
+              <input type="tel" name="postcode" value=""
+                placeholder="PLZ" pattern="\b\d{5}\b" />
+            </div>
           </form>
         </div>
       </div>
