@@ -19,11 +19,6 @@ module.exports = AmpersandView.extend({
     }
   },
 
-  initialize: function() {
-    this.model._name = this.model.address[app.config.overpass.headline] || null;
-    this.model._query = app.config.overpass.query;
-  },
-
   showDetails: function() {
     app.user.trigger('showDetails', this.model);
     console.log(this.model.collection.selectedNode);

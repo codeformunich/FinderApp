@@ -1,15 +1,19 @@
 <li class="card">
   <div class="card-header">
-      {{#if model._name}}
-        {{model._name}}
+      {{#if name}}
+        {{model.name}}
       {{else}}
-        {{model.address.road}}
+        {{#if model.address.road}}
+          {{model.address.road}}
+        {{else}}
+          {{model.query}}
+        {{/if}}
       {{/if}}
   </div>
   <div class="card-copy">
     <p>
       Entfernung: <span data-hook="distance"></span>
-      <a class="maps-link" href="http://maps.google.de/maps?q={{model.lat}},{{model.lon}}({{model._query}})">Google Maps</a>
+      <a class="maps-link" href="http://maps.google.de/maps?q={{model.lat}},{{model.lon}}({{model.query}})">Google Maps</a>
     </p>
   </div>
 </li>

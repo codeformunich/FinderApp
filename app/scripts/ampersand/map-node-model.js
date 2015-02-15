@@ -8,6 +8,8 @@ module.exports = AmpersandModel.extend({
   initialize: function() {
     this.distance = this.computeDistance();
     this.distanceText = this.createDistanceText(this.distance);
+    this.name = this.address[app.config.overpass.headline] || null;
+    this.query = app.config.overpass.query;
 
     if (!this.address.road) {
       if (this.address.path) {
@@ -18,6 +20,8 @@ module.exports = AmpersandModel.extend({
         this.address.road = this.address.footway;
       } else if (this.address.address27) {
         this.address.road = this.address.address27;
+      } else if (this.address.cycleway) {
+        this.address.road = this.address.cycleway;
       } else {
         this.address.road = this.address.hamlet;
       }
