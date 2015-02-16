@@ -164,7 +164,6 @@
 .entry-card {
   @extend .card;
   max-width: 500px;
-  margin-top: 150px;
   margin-left: auto;
   margin-right: auto;
 
@@ -191,6 +190,7 @@
 .entry-wrapper {
   width: 100%;
   height: 100%;
+  padding-top: 20%;
   background-image: url(../images/background_small.jpg);
   background-size: cover;
 
