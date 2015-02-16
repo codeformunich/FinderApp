@@ -27,10 +27,10 @@ module.exports = AmpersandView.extend({
 
     var $postcode = $('input[name=postcode]');
 
-    var pattern = new RegExp('\b\d{5}\b');
+    var pattern = /^[0-9]{5}$/;
     var postcode = $postcode.val();
 
-    if (pattern.test($postcode.val())) {
+    if (postcode.match(pattern)) {
       app.user.processPostcode(postcode);
     } else {
       var $error = $(this.queryByHook('postcode-error'));
