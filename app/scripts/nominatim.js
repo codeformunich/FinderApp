@@ -5,7 +5,7 @@
 
 var $ = require('jquery');
 var locationMath = require('location-math');
-var nominatimUrl = 'http://nominatim.openstreetmap.org/search?';
+var nominatimUrl = 'https://nominatim.openstreetmap.org/search?';
 var defaultParams = {
   format: 'json',
   polygon: 0,
