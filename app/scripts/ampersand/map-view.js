@@ -60,7 +60,7 @@ module.exports = AmpersandView.extend({
       tp = 'ls';
     }
 
-    L.tileLayer('http://tiles.lyrk.org/' + tp + '/{z}/{x}/{y}?apikey=' + apikey,
+    L.tileLayer('https://tiles.lyrk.org/' + tp + '/{z}/{x}/{y}?apikey=' + apikey,
      {
        attribution: '| Data: ' +
                     '<a href="http://www.overpass-api.de/">OverpassAPI</a>' +
